@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Traffic Command — Municipal Highway Operations Center</title>
+  <title>Traffic Management System Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -11,7 +11,10 @@
 </head>
 <body>
 
-<!-- ══════════════════════ NAVBAR ══════════════════════ -->
+  <!-- Cosmic Background Grid Overlay (No dots) -->
+  <div class="bg-grid-overlay" id="bgGridOverlay"></div>
+
+  <!-- ══════════════════════ NAVBAR ══════════════════════ -->
 <nav class="navbar">
   <div class="nav-brand-wrap">
     <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">
@@ -30,7 +33,7 @@
           <circle cx="12" cy="17" r="2"></circle>
         </svg>
       </div>
-      <span>Traffic Command</span>
+      <span>Traffic Management System Dashboard</span>
     </a>
   </div>
 
@@ -43,6 +46,10 @@
   </ul>
 
   <div class="nav-right">
+    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleDashboardTheme()" title="Switch Theme (Dark / Light)">
+      <span class="theme-icon">🌙</span>
+      <span class="theme-text">Dark</span>
+    </button>
     <div class="live-badge">
       <div class="live-dot"></div>
       <span class="live-text">LIVE OPERATIONS • 24/7</span>
@@ -51,7 +58,12 @@
       <span>＋</span>
       <span class="btn-report-text">Report Incident</span>
     </button>
-    <div class="avatar" title="Officer Jane Doe"></div>
+    <div class="avatar" id="userProfileBtn" title="Control Officer Profile" onclick="showToast('👤 Officer Profile: Active Session (NHAI Command)')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </div>
   </div>
 </nav>
 
@@ -194,7 +206,7 @@
 
         <div class="form-group">
           <label class="form-label">Location</label>
-          <input class="form-input" id="qLocation" placeholder="e.g., I-85 South, Exit 91"/>
+          <input class="form-input" id="qLocation" placeholder="e.g., Delhi-Mumbai Expressway (NE-4), KM 48"/>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -220,11 +232,11 @@
         <div class="form-group">
           <label class="form-label">Response Team</label>
           <select class="form-select" id="qTeam">
-            <option>Unit Alpha-04 (Available)</option>
-            <option>Unit Bravo-07 (Available)</option>
-            <option>HazMat-02 (Available)</option>
-            <option>Tow-11 (Available)</option>
-            <option>Signal Ops-03 (Available)</option>
+            <option>NHAI Squad Alpha-04 (Available)</option>
+            <option>Traffic Police Delta-02 (Available)</option>
+            <option>108 Emergency Medic-05 (Available)</option>
+            <option>IRB Heavy Tow-11 (Available)</option>
+            <option>PWD Rapid Team-03 (Available)</option>
           </select>
         </div>
         <button class="btn-dispatch" onclick="dispatchIncident()">▷ Dispatch &amp; Log Incident</button>
@@ -241,14 +253,14 @@
             </svg>
             Live Network Snapshot
           </div>
-          <span class="count-badge" style="background:#e0f2fe;color:#0284c7;border-color:transparent">Metro Grid</span>
+          <span class="count-badge" style="background:var(--primary-soft);color:var(--primary);border-color:transparent">India NH Grid</span>
         </div>
         <div class="mini-map">
           <canvas id="miniMapCanvas"></canvas>
           <div class="map-legend">
             <span><span class="legend-dot" style="background:#dc2626"></span>3 Critical</span>
             <span><span class="legend-dot" style="background:#ea580c"></span>7 High</span>
-            <span style="margin-left:auto;color:var(--primary);cursor:pointer">Expand ↗</span>
+            <span style="margin-left:auto;color:var(--primary);cursor:pointer">Delhi-NCR Sector ↗</span>
           </div>
         </div>
       </div>
@@ -271,7 +283,7 @@
     <div class="stat-card glass">
       <div class="stat-label">CRITICAL ALERTS <div class="stat-icon red-bg">⚠️</div></div>
       <div class="stat-value" style="color:var(--critical-red)">03</div>
-      <div class="text-xs text-secondary" style="margin-top:4px">I-405 • SR-110</div>
+      <div class="text-xs text-secondary" style="margin-top:4px">NH-48 • NE-4 Expressway</div>
       <div class="stat-bar"><div class="stat-bar-fill bar-red" style="width:30%"></div></div>
     </div>
     <div class="stat-card glass">
@@ -363,7 +375,7 @@
       <div class="glass p-20">
         <div class="flex-between" style="margin-bottom:10px">
           <div class="font-bold" style="font-size:0.9rem;color:var(--text-main)">Active Sector Overview</div>
-          <span class="count-badge" style="background:#e0f2fe;color:#0284c7;border-color:transparent">Metro Grid</span>
+          <span class="count-badge" style="background:var(--primary-soft);color:var(--primary);border-color:transparent">India Corridors</span>
         </div>
         <div class="mini-map" style="height:160px">
           <canvas id="sectorMapCanvas"></canvas>
@@ -586,12 +598,12 @@
   <!-- Hero -->
   <div class="about-hero">
     <div>
-      <div class="about-eyebrow">01 / MUNICIPAL TRAFFIC OPERATIONS AUTHORITY</div>
-      <div class="about-title">Keeping Regional Corridors Safe, Clear, and Connected</div>
-      <div class="about-desc">As the central nervous system of metropolitan mobility, Traffic Command unites real-time telemetry, predictive signal engineering, and rapid field dispatch to protect commuters and sustain regional commerce across every mile of our highway network.</div>
+      <div class="about-eyebrow">01 / NATIONAL HIGHWAYS & TRAFFIC COMMAND AUTHORITY (INDIA)</div>
+      <div class="about-title">Keeping Indian Corridors Safe, Clear, and Connected</div>
+      <div class="about-desc">As the central nervous system of metropolitan and national expressway mobility, Traffic Command coordinates real-time telemetry, predictive signal engineering, and rapid field dispatch to protect commuters and sustain commercial freight across India's National Highway network.</div>
       <div class="about-cta-row">
-        <button class="btn-report" onclick="showToast('📐 Command architecture details…')">Explore Command Architecture ↓</button>
-        <button class="btn-secondary" onclick="showToast('📞 Operations Center: (555) 019-2470')">📞 Operations Center</button>
+        <button class="btn-report" onclick="showToast('📋 NHAI command architecture details…')">Explore Command Architecture ↓</button>
+        <button class="btn-secondary" onclick="showToast('📞 Operations Center: 1033 / 112')">📞 Operations Center (1033)</button>
       </div>
     </div>
     <div class="about-img-box">
@@ -610,14 +622,14 @@
       <div class="about-stat-desc">Uninterrupted multi-shift oversight across all regional expressways, arterial junctions, and tunnel systems.</div>
     </div>
     <div class="about-stat-card">
-      <div class="about-stat-val">140+</div>
-      <div class="about-stat-name">Miles Monitored</div>
-      <div class="about-stat-desc">Instrumented with inductive loop detectors, HD PTZ cameras, and automated incident detection sensors.</div>
+      <div class="about-stat-val">1,400+</div>
+      <div class="about-stat-name">Corridor KMs Monitored</div>
+      <div class="about-stat-desc">Instrumented with smart FASTag gantries, HD PTZ cameras, and automated incident detection sensors.</div>
     </div>
     <div class="about-stat-card">
       <div class="about-stat-val">&lt; 7 Min</div>
       <div class="about-stat-name">Avg Dispatch Time</div>
-      <div class="about-stat-desc">From initial sensor alert or 911 relay to verified field unit deployment on-scene. Target Met.</div>
+      <div class="about-stat-desc">From initial sensor alert or 1033/112 relay to verified field unit deployment on-scene. Target Met.</div>
     </div>
   </div>
 
@@ -670,16 +682,16 @@
           <div class="contact-icon">📞</div>
           <div class="contact-text">
             <h4>Emergency Dispatch Hotline</h4>
-            <p>(555) 019-2470</p>
-            <small>Direct 24/7 Priority Line • Dial 911 for life-safety emergencies</small>
+            <p>1033 (NHAI Toll-Free) / +91 (011) 2507-4100</p>
+            <small>Direct 24/7 Priority Line • Dial 112 for Police/Medical/Fire Emergency</small>
           </div>
         </div>
         <div class="contact-entry">
           <div class="contact-icon">📍</div>
           <div class="contact-text">
             <h4>Headquarters Address</h4>
-            <p>450 Civic Center Plaza, Suite 200</p>
-            <small>Municipal Traffic Operations Authority • Metro District</small>
+            <p>NHAI Operations Command Center, G 5&amp;6, Sector-10, Dwarka, New Delhi - 110075</p>
+            <small>National Highways Authority of India • Ministry of Road Transport &amp; Highways</small>
           </div>
         </div>
         <div class="contact-entry">
@@ -694,7 +706,7 @@
       <div class="contact-map-box">
         <div class="contact-map-label">
           <div class="live-dot"></div>
-          Operations Command Hub · Sector 01
+          Operations Command Hub · Dwarka Sector-10, New Delhi (HQ)
         </div>
       </div>
     </div>
@@ -704,8 +716,8 @@
 
 <!-- ══════════════════════ FOOTER ══════════════════════ -->
 <footer>
-  <span>© 2025 Traffic Command. Municipal Highway Operations Center.</span>
-  <span>All systems operational • 24/7 Dispatch</span>
+  <span>© 2025 Traffic Management System Dashboard. National Highway &amp; Expressways Operations Center (India).</span>
+  <span>All systems operational • 24/7 Dispatch • Toll-Free Helpline: 1033</span>
 </footer>
 
 <!-- Toast Notifications -->
@@ -719,7 +731,7 @@
     <div class="modal-sub">Log &amp; dispatch field units immediately</div>
     <div class="form-group">
       <label class="form-label">Location / Corridor</label>
-      <input class="form-input" id="mLocation" placeholder="e.g., I-285 Westbound, Mile 42"/>
+      <input class="form-input" id="mLocation" placeholder="e.g., Mumbai Western Express Highway, Andheri Flyover"/>
     </div>
     <div class="form-row">
       <div class="form-group">
@@ -746,10 +758,11 @@
       <label class="form-label">Response Team</label>
       <select class="form-select" id="mTeam">
         <option>Auto-Assign (Recommended)</option>
-        <option>Unit Alpha-04</option>
-        <option>Unit Bravo-07</option>
-        <option>HazMat-02</option>
-        <option>Tow-11</option>
+        <option>NHAI Squad Alpha-04</option>
+        <option>Traffic Police Delta-02</option>
+        <option>108 Emergency Medic-05</option>
+        <option>IRB Heavy Tow-11</option>
+        <option>PWD Rapid Team-03</option>
       </select>
     </div>
     <div class="form-group">

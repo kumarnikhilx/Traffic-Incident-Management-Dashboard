@@ -9,62 +9,62 @@
    STATE & DATA STORE
 ────────────────────────────────────────── */
 const homeIncidents = [
-  { id: '#INC-4092', cat: 'Accident',      icon: '🚗', loc: 'I-95 Northbound, Exit 24',     sev: 'Critical', team: 'Unit Alpha-04', status: 'On Scene'   },
-  { id: '#INC-4091', cat: 'Road Closure',  icon: '🚫', loc: 'SR-400 East & Peachtree',      sev: 'Critical', team: 'HazMat-02',     status: 'En Route'   },
-  { id: '#INC-4089', cat: 'Breakdown',     icon: '🚘', loc: 'I-285 Westbound, Mile 14',     sev: 'High',     team: 'Tow-11',        status: 'Dispatched' },
-  { id: '#INC-4087', cat: 'Congestion',    icon: '🚦', loc: 'Downtown Connector, Exit 248', sev: 'Medium',   team: 'Signal Ops-03', status: 'On Scene'   },
-  { id: '#INC-4085', cat: 'Accident',      icon: '🚗', loc: 'US-78 East, Bridge Overpass',  sev: 'Critical', team: 'Unit Bravo-07', status: 'On Scene'   },
-  { id: '#INC-4082', cat: 'Breakdown',     icon: '🚘', loc: 'I-20 Westbound, Exit 51B',     sev: 'High',     team: 'HERO Unit-19',  status: 'En Route'   },
-  { id: '#INC-4079', cat: 'Congestion',    icon: '🚦', loc: 'Midtown Tunnel Approach',      sev: 'Medium',   team: 'Patrol-08',     status: 'Dispatched' },
-  { id: '#INC-4076', cat: 'Road Closure',  icon: '🚫', loc: 'Memorial Dr & Capitol Ave',    sev: 'High',     team: 'DOT Crew-05',   status: 'On Scene'   },
+  { id: '#INC-4092', cat: 'Accident',      icon: '🚗', loc: 'Delhi-Mumbai Expressway (NE-4), KM 48',     sev: 'Critical', team: 'NHAI Squad Alpha-04', status: 'On Scene'   },
+  { id: '#INC-4091', cat: 'Road Closure',  icon: '🚫', loc: 'Bengaluru ORR, Silk Board to HSR Flyover',    sev: 'Critical', team: 'Traffic Police Delta-02', status: 'En Route' },
+  { id: '#INC-4089', cat: 'Breakdown',     icon: '🚘', loc: 'Mumbai Western Express Highway, Andheri',     sev: 'High',     team: 'IRB Heavy Tow-11',    status: 'Dispatched' },
+  { id: '#INC-4087', cat: 'Congestion',    icon: '🚦', loc: 'Delhi Outer Ring Road, Dhaula Kuan Underpass',sev: 'Medium',   team: 'Signal Ops North-03', status: 'On Scene'   },
+  { id: '#INC-4085', cat: 'Accident',      icon: '🚗', loc: 'Pune-Mumbai Expressway, Khandala Ghat KM 64', sev: 'Critical', team: 'Expressway Patrol-07', status: 'On Scene'   },
+  { id: '#INC-4082', cat: 'Breakdown',     icon: '🚘', loc: 'Noida-Greater Noida Expressway, Pari Chowk',  sev: 'High',     team: 'CATS Recovery-19',    status: 'En Route'   },
+  { id: '#INC-4079', cat: 'Congestion',    icon: '🚦', loc: 'Hyderabad Outer Ring Road (ORR), Gachibowli', sev: 'Medium',   team: 'Cyberabad Patrol-08', status: 'Dispatched' },
+  { id: '#INC-4076', cat: 'Road Closure',  icon: '🚫', loc: 'Chennai OMR (IT Corridor), Sholinganallur',   sev: 'High',     team: 'PWD Rapid Team-05',   status: 'On Scene'   },
 ];
 
 const allIncidents = [
-  { id: 'INC-8492', ts: '14:22:08', loc: 'I-405 N • Exit 42B',   cat: 'Accident',          sev: 'Critical', team: 'Unit 14 • EMS-02',  status: 'On Scene'   },
-  { id: 'INC-8491', ts: '14:15:41', loc: 'SR-110 S • Tunnel 3',  cat: 'Road Closure',      sev: 'High',     team: 'DOT-Crew 07',       status: 'Dispatched' },
-  { id: 'INC-8489', ts: '13:58:12', loc: 'US-101 W • Mile 18',   cat: 'Vehicle Breakdown', sev: 'Medium',   team: 'Tow-Heavy 04',      status: 'On Scene'   },
-  { id: 'INC-8488', ts: '13:49:03', loc: 'I-10 E • Interchange', cat: 'Accident',          sev: 'Critical', team: 'Pending Assign',    status: 'Reported'   },
-  { id: 'INC-8485', ts: '13:31:55', loc: 'I-5 N • Corridor 9',   cat: 'Congestion',        sev: 'Low',      team: 'Signal-Ops 02',     status: 'Dispatched' },
-  { id: 'INC-8482', ts: '12:50:19', loc: 'SR-60 E • Exit 11',    cat: 'Road Closure',      sev: 'High',     team: 'Unit 09 • DOT-03',  status: 'Resolved'   },
-  { id: 'INC-8479', ts: '12:14:44', loc: 'I-710 S • Port Gate',  cat: 'Vehicle Breakdown', sev: 'Medium',   team: 'Tow-Light 11',      status: 'Resolved'   },
+  { id: 'INC-8492', ts: '14:22:08', loc: 'Delhi-Gurugram Expy (NH-48) • IFFCO Chowk', cat: 'Accident',          sev: 'Critical', team: 'NHAI Unit 14 • 108 EMS', status: 'On Scene'   },
+  { id: 'INC-8491', ts: '14:15:41', loc: 'Yamuna Expressway • Buddh Circuit Exit',    cat: 'Road Closure',      sev: 'High',     team: 'YEIDA Barrier Crew 07', status: 'Dispatched' },
+  { id: 'INC-8489', ts: '13:58:12', loc: 'Eastern Peripheral Expy (EPE) • Ghaziabad', cat: 'Vehicle Breakdown', sev: 'Medium',   team: 'Heavy Tow Rig 04',      status: 'On Scene'   },
+  { id: 'INC-8488', ts: '13:49:03', loc: 'Bengaluru-Mysuru Access Highway • Bidadi',   cat: 'Accident',          sev: 'Critical', team: 'KSP Highway Patrol 02', status: 'Reported'   },
+  { id: 'INC-8485', ts: '13:31:55', loc: 'Kolkata EM Bypass • Salt Lake Sector V',     cat: 'Congestion',        sev: 'Low',      team: 'Traffic Signal Eng. 02',status: 'Dispatched' },
+  { id: 'INC-8482', ts: '12:50:19', loc: 'Ahmedabad SG Highway • Iskcon Flyover',      cat: 'Road Closure',      sev: 'High',     team: 'Road Maintenance DOT-03',status: 'Resolved'   },
+  { id: 'INC-8479', ts: '12:14:44', loc: 'Jaipur Bypass (NH-48) • Ajmer Intersection', cat: 'Vehicle Breakdown', sev: 'Medium',   team: 'Rapid Tow 11',          status: 'Resolved'   },
 ];
 
 const resolutionEntries = [
   {
-    id: 'INC-8482 • SR-60 E Exit 11',
+    id: 'INC-8482 • Ahmedabad SG Highway, Iskcon Flyover',
     cleared: '34m',
-    note: 'DOT-03 & Unit 09: Debris swept from right two lanes; temporary signage removed and traffic flow normalized.',
+    note: 'NHAI Road Maintenance & Unit 09: Debris swept from right two lanes; traffic flow normalized.',
     time: 'Resolved at 13:24 • Verified by TMC-04'
   },
   {
-    id: 'INC-8479 • I-710 S Port Gate',
+    id: 'INC-8479 • Jaipur Bypass (NH-48), Ajmer Road',
     cleared: '19m',
-    note: 'Tow-Light 11: Commercial box truck relocated to shoulder bay; no structural barrier damage reported.',
+    note: 'Rapid Tow 11: Commercial container truck relocated to designated lay-by; all lanes cleared.',
     time: 'Resolved at 12:33 • Verified by TMC-02'
   },
   {
-    id: 'INC-8474 • I-405 S Mulholland',
+    id: 'INC-8474 • Delhi-Meerut Expressway (NE-3), KM 18',
     cleared: '41m',
-    note: 'Unit 12 & EMS-05: Two-vehicle collision cleared; minor fluid spill neutralized with absorbent.',
+    note: 'Unit 12 & 108 Ambulance: Multi-vehicle collision cleared; minor fluid spill neutralized with absorbent.',
     time: 'Resolved at 11:48 • Verified by TMC-04'
   },
 ];
 
 const unitData = [
-  { icon: '🛡️', name: 'Highway Patrol Units',             current: 4, total: 5, desc: 'High-speed pursuit, lane enforcement, and primary incident perimeter control.',                 dispatch: '3m 40s',  zone: 'I-95 & Metro Loop'      },
-  { icon: '🚑', name: 'Emergency Medical Response (EMS)', current: 6, total: 8, desc: 'Advanced life support ambulances and trauma triage teams for collision injuries.',               dispatch: '4m 15s',  zone: 'All Municipal Sectors'  },
-  { icon: '🏗️', name: 'Heavy Tow & Vehicle Recovery',    current: 3, total: 4, desc: 'Rotator cranes and heavy-duty wreckers for commercial freight and multi-car clearance.',         dispatch: '11m 20s', zone: 'Expressway & Bridges'   },
-  { icon: '🔧', name: 'Road Closure & Barrier Crews',     current: 5, total: 6, desc: 'Rapid-deploy attenuator trucks, portable signage, and detour channelization.',                  dispatch: '8m 05s',  zone: 'Arterial & Tunnels'     },
-  { icon: '🚦', name: 'Traffic Signal Engineering',        current: 2, total: 3, desc: 'Intersection cabinet repair, adaptive timing overrides, and smart-grid restoration.',           dispatch: '14m 30s', zone: 'Central Business Dist.' },
-  { icon: '⚗️', name: 'Hazmat & Spill Response',          current: 2, total: 2, desc: 'Chemical containment, fuel spill neutralization, and environmental safety sweeps.',             dispatch: '6m 50s',  zone: 'Industrial & Freight'   },
+  { icon: '🛡️', name: 'Highway Patrol Units',             current: 4, total: 5, desc: 'High-speed pursuit, lane enforcement, and primary incident perimeter control.',                 dispatch: '3m 40s',  zone: 'NH-48, NE-4 & Delhi-NCR Loop' },
+  { icon: '🚑', name: 'Emergency Medical Response (108 EMS)', current: 6, total: 8, desc: 'Advanced life support ambulances and trauma triage teams for collision injuries.',            dispatch: '4m 15s',  zone: 'All Indian Metropolitan Sectors' },
+  { icon: '🏗️', name: 'Heavy Tow & Vehicle Recovery',    current: 3, total: 4, desc: 'Rotator cranes and heavy-duty wreckers for commercial freight and multi-car clearance.',         dispatch: '11m 20s', zone: 'Expressways & Sea Link Corridors' },
+  { icon: '🔧', name: 'Road Closure & Barrier Crews',     current: 5, total: 6, desc: 'Rapid-deploy attenuator trucks, portable signage, and detour channelization.',                  dispatch: '8m 05s',  zone: 'Outer Ring Roads & Tunnels' },
+  { icon: '🚦', name: 'Traffic Signal Engineering',        current: 2, total: 3, desc: 'Intersection cabinet repair, adaptive timing overrides, and smart-grid restoration.',           dispatch: '14m 30s', zone: 'Central Business Districts (CBD)' },
+  { icon: '⚗️', name: 'Hazmat & Spill Response',          current: 2, total: 2, desc: 'Chemical containment, fuel spill neutralization, and environmental safety sweeps.',             dispatch: '6m 50s',  zone: 'National Freight Corridors' },
 ];
 
 const dispatchData = [
-  { id: '#DSP-4092', team: 'Highway Patrol • Unit 14', loc: 'I-95 Northbound, Milepost 42.8', status: 'On Scene', eta: 'Arrived', etaSeconds: 0 },
-  { id: '#DSP-4091', team: 'EMS • Medic 07',           loc: 'I-95 Northbound, Milepost 42.8', status: 'En Route', eta: '02m 15s', etaSeconds: 135 },
-  { id: '#DSP-4088', team: 'Heavy Tow • Rig 03',       loc: 'Harbor Bridge Eastbound, Lane 1', status: 'En Route', eta: '06m 40s', etaSeconds: 400 },
-  { id: '#DSP-4085', team: 'Signal Eng. • Crew 02',    loc: '5th Ave & Pine St Intersection', status: 'On Scene', eta: 'Arrived', etaSeconds: 0 },
-  { id: '#DSP-4081', team: 'Barrier Crew • Unit 05',   loc: 'Midtown Tunnel Approach, West',  status: 'Staging',  eta: '01m 10s', etaSeconds: 70 },
+  { id: '#DSP-4092', team: 'NHAI Highway Patrol • Unit 14', loc: 'Delhi-Mumbai Expressway (NE-4), KM 48', status: 'On Scene', eta: 'Arrived', etaSeconds: 0 },
+  { id: '#DSP-4091', team: '108 EMS • Medic Unit 07',       loc: 'Delhi-Mumbai Expressway (NE-4), KM 48', status: 'En Route', eta: '02m 15s', etaSeconds: 135 },
+  { id: '#DSP-4088', team: 'Heavy Tow • Rig 03',             loc: 'Mumbai Western Express Highway, Lane 2', status: 'En Route', eta: '06m 40s', etaSeconds: 400 },
+  { id: '#DSP-4085', team: 'Signal Eng. • Crew 02',          loc: 'Bengaluru Silk Board & Outer Ring Road', status: 'On Scene', eta: 'Arrived', etaSeconds: 0 },
+  { id: '#DSP-4081', team: 'Barrier Crew • Unit 05',         loc: 'Delhi Pragati Maidan Tunnel, West Tube', status: 'Staging',  eta: '01m 10s', etaSeconds: 70 },
 ];
 
 const lifecycleData = [
@@ -290,7 +290,7 @@ function renderResolutionLog() {
   const container = document.getElementById('resolutionLog');
   if (!container) return;
   container.innerHTML = resolutionEntries.map(e => `
-    <div style="background:#ffffff;border:1px solid var(--border-card);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow-card)">
+    <div class="resolution-card">
       <div class="flex-between" style="margin-bottom:6px">
         <span style="font-size:0.8rem;font-weight:700;color:var(--text-main)">${e.id}</span>
         <span class="stat-badge badge-blue">Cleared in ${e.cleared}</span>
@@ -608,8 +608,109 @@ function updateMetricCounters() {
 }
 
 /* ──────────────────────────────────────────
-   REALISTIC LIGHT-THEMED GEOSPATIAL MAP CANVAS
-   (Atlanta / Metro Corridor snapshot)
+   COSMIC BACKGROUND STARFIELD CANVAS & THEME
+────────────────────────────────────────── */
+let starsAnimationId = null;
+
+function initStarfield() {
+  const canvas = document.getElementById('bgStarsCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  let w = (canvas.width = window.innerWidth);
+  let h = (canvas.height = window.innerHeight);
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    createStars();
+  }
+  window.addEventListener('resize', resize);
+
+  function createStars() {
+    stars = [];
+    const count = Math.max(110, Math.min(220, Math.floor((w * h) / 8500)));
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        radius: Math.random() < 0.78 ? Math.random() * 0.9 + 0.4 : Math.random() * 1.5 + 1.0,
+        baseAlpha: Math.random() * 0.7 + 0.3,
+        twinkleSpeed: Math.random() * 0.02 + 0.005,
+        phase: Math.random() * Math.PI * 2,
+        color: Math.random() < 0.28 ? '#d8b4fe' : (Math.random() < 0.16 ? '#93c5fd' : '#ffffff')
+      });
+    }
+  }
+  createStars();
+
+  function render() {
+    if (document.body.classList.contains('theme-light')) {
+      ctx.clearRect(0, 0, w, h);
+      starsAnimationId = requestAnimationFrame(render);
+      return;
+    }
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0; i < stars.length; i++) {
+      const s = stars[i];
+      s.phase += s.twinkleSpeed;
+      const alpha = s.baseAlpha * (0.65 + 0.35 * Math.sin(s.phase));
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = Math.max(0.12, Math.min(1, alpha));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (s.radius > 1.2) {
+        ctx.fillStyle = s.color;
+        ctx.globalAlpha = alpha * 0.3;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    starsAnimationId = requestAnimationFrame(render);
+  }
+  if (starsAnimationId) cancelAnimationFrame(starsAnimationId);
+  render();
+}
+
+function toggleDashboardTheme() {
+  const isLight = document.body.classList.toggle('theme-light');
+  const btn = document.getElementById('themeToggleBtn');
+  if (btn) {
+    if (isLight) {
+      btn.innerHTML = '<span class="theme-icon">☀️</span><span class="theme-text">Light</span>';
+    } else {
+      btn.innerHTML = '<span class="theme-icon">🌙</span><span class="theme-text">Dark</span>';
+    }
+  }
+  localStorage.setItem('trafficCommandTheme', isLight ? 'light' : 'dark');
+  drawMiniMap('miniMapCanvas');
+  const incPage = document.getElementById('page-incidents');
+  if (incPage && incPage.classList.contains('active')) {
+    drawSectorMap();
+  }
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('trafficCommandTheme');
+  // Default is 'dark' (dark grid theme matching user uploaded image)
+  if (saved === 'light') {
+    document.body.classList.add('theme-light');
+    const btn = document.getElementById('themeToggleBtn');
+    if (btn) btn.innerHTML = '<span class="theme-icon">☀️</span><span class="theme-text">Light</span>';
+  } else {
+    document.body.classList.remove('theme-light');
+    const btn = document.getElementById('themeToggleBtn');
+    if (btn) btn.innerHTML = '<span class="theme-icon">🌙</span><span class="theme-text">Dark</span>';
+  }
+}
+
+/* ──────────────────────────────────────────
+   INDIAN HIGHWAY & METROPOLITAN GRID MAP
+   (Delhi NCR - NH-48 / NE-4 / Yamuna Expy)
 ────────────────────────────────────────── */
 function drawMiniMap(canvasId) {
   const canvas = document.getElementById(canvasId);
@@ -619,119 +720,147 @@ function drawMiniMap(canvasId) {
   canvas.height = parent.offsetHeight || 180;
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
+  const isDark = !document.body.classList.contains('theme-light');
 
-  // 1. Base land color (soft warm light gray)
-  ctx.fillStyle = '#f1f3f6';
+  // 1. Base land color
+  ctx.fillStyle = isDark ? '#0a0717' : '#f1f3f6';
   ctx.fillRect(0, 0, W, H);
 
-  // 2. Parks & green zones (mint green)
-  ctx.fillStyle = '#d7f3e3';
+  // 2. Parks & Green Belt (Delhi Ridge / Aravalli Bio-Park)
+  ctx.fillStyle = isDark ? 'rgba(16, 185, 129, 0.12)' : '#d7f3e3';
   ctx.beginPath();
-  ctx.ellipse(W * 0.25, H * 0.35, W * 0.14, H * 0.22, 0.2, 0, Math.PI * 2);
+  ctx.ellipse(W * 0.28, H * 0.38, W * 0.14, H * 0.24, 0.25, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.beginPath();
-  ctx.ellipse(W * 0.78, H * 0.72, W * 0.16, H * 0.18, -0.3, 0, Math.PI * 2);
+  ctx.ellipse(W * 0.74, H * 0.74, W * 0.15, H * 0.18, -0.3, 0, Math.PI * 2);
   ctx.fill();
 
-  // 3. Water body / river (soft light blue)
-  ctx.strokeStyle = '#cbe4fb';
+  // 3. Yamuna River (meandering through NCR)
+  ctx.strokeStyle = isDark ? '#1e1b4b' : '#cbe4fb';
   ctx.lineWidth = 14;
   ctx.beginPath();
-  ctx.moveTo(0, H * 0.15);
-  ctx.bezierCurveTo(W * 0.4, H * 0.2, W * 0.6, H * 0.8, W, H * 0.85);
+  ctx.moveTo(0, H * 0.16);
+  ctx.bezierCurveTo(W * 0.38, H * 0.22, W * 0.58, H * 0.78, W, H * 0.84);
   ctx.stroke();
 
-  // 4. Minor street grid lines (crisp white)
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 2.5;
-  for (let x = 15; x < W; x += 32) {
+  if (isDark) {
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2.5;
+    ctx.globalAlpha = 0.5;
+    ctx.beginPath();
+    ctx.moveTo(0, H * 0.16);
+    ctx.bezierCurveTo(W * 0.38, H * 0.22, W * 0.58, H * 0.78, W, H * 0.84);
+    ctx.stroke();
+    ctx.globalAlpha = 1.0;
+  }
+
+  // 4. City street grid
+  ctx.strokeStyle = isDark ? 'rgba(168, 85, 247, 0.08)' : '#ffffff';
+  ctx.lineWidth = 2.0;
+  for (let x = 16; x < W; x += 32) {
     ctx.beginPath();
     ctx.moveTo(x, 0);
     ctx.lineTo(x, H);
     ctx.stroke();
   }
-  for (let y = 15; y < H; y += 28) {
+  for (let y = 16; y < H; y += 28) {
     ctx.beginPath();
     ctx.moveTo(0, y);
     ctx.lineTo(W, y);
     ctx.stroke();
   }
 
-  // 5. Major Highways (solid light blue-gray corridor)
-  ctx.strokeStyle = '#e2e8f0';
-  ctx.lineWidth = 6;
+  // 5. Major Indian Corridors:
+  // Corridors underlay
+  ctx.strokeStyle = isDark ? '#3b0764' : '#e2e8f0';
+  ctx.lineWidth = 7;
+  // NH-48 (Delhi - Gurugram - Jaipur)
   ctx.beginPath();
   ctx.moveTo(W * 0.52, 0);
-  ctx.bezierCurveTo(W * 0.52, H * 0.4, W * 0.48, H * 0.6, W * 0.5, H);
+  ctx.bezierCurveTo(W * 0.50, H * 0.42, W * 0.44, H * 0.65, W * 0.46, H);
   ctx.stroke();
-
+  // NE-4 / Yamuna Expressway
   ctx.beginPath();
   ctx.moveTo(0, H * 0.48);
-  ctx.bezierCurveTo(W * 0.3, H * 0.46, W * 0.7, H * 0.52, W, H * 0.5);
+  ctx.bezierCurveTo(W * 0.32, H * 0.46, W * 0.68, H * 0.52, W, H * 0.5);
   ctx.stroke();
 
-  // Highway Core (white)
-  ctx.strokeStyle = '#ffffff';
+  // Corridors Core (Neon Purple / Cyan in dark mode, crisp White in light mode)
+  ctx.strokeStyle = isDark ? '#a855f7' : '#ffffff';
   ctx.lineWidth = 4;
   ctx.beginPath();
   ctx.moveTo(W * 0.52, 0);
-  ctx.bezierCurveTo(W * 0.52, H * 0.4, W * 0.48, H * 0.6, W * 0.5, H);
+  ctx.bezierCurveTo(W * 0.50, H * 0.42, W * 0.44, H * 0.65, W * 0.46, H);
   ctx.stroke();
 
+  ctx.strokeStyle = isDark ? '#38bdf8' : '#ffffff';
   ctx.beginPath();
   ctx.moveTo(0, H * 0.48);
-  ctx.bezierCurveTo(W * 0.3, H * 0.46, W * 0.7, H * 0.52, W, H * 0.5);
+  ctx.bezierCurveTo(W * 0.32, H * 0.46, W * 0.68, H * 0.52, W, H * 0.5);
   ctx.stroke();
 
-  // Highway ring
-  ctx.strokeStyle = '#cbd5e1';
+  // Delhi Outer Ring Road / Peripheral Loop
+  ctx.strokeStyle = isDark ? 'rgba(192, 132, 252, 0.45)' : '#cbd5e1';
   ctx.lineWidth = 2.5;
-  ctx.setLineDash([4, 4]);
+  ctx.setLineDash([5, 4]);
   ctx.beginPath();
-  ctx.ellipse(W * 0.5, H * 0.5, W * 0.16, H * 0.22, 0, 0, Math.PI * 2);
+  ctx.ellipse(W * 0.5, H * 0.5, W * 0.18, H * 0.24, 0, 0, Math.PI * 2);
   ctx.stroke();
   ctx.setLineDash([]);
 
-  // Labels
-  ctx.fillStyle = '#1e293b';
-  ctx.font = 'bold 12px Inter, sans-serif';
+  // Indian Landmark & Node Labels
+  ctx.fillStyle = isDark ? '#f8fafc' : '#1e293b';
+  ctx.font = 'bold 11px Inter, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('Atlanta', W * 0.5, H * 0.54);
+  ctx.fillText('DELHI NCR (HQ)', W * 0.5, H * 0.53);
 
-  ctx.fillStyle = '#64748b';
-  ctx.font = '500 8px Inter, sans-serif';
-  ctx.fillText('Downtown', W * 0.5, H * 0.62);
-  ctx.fillText('Midtown', W * 0.52, H * 0.36);
+  ctx.fillStyle = isDark ? '#c084fc' : '#64748b';
+  ctx.font = '600 8.5px Inter, sans-serif';
+  ctx.fillText('DWARKA SEC-10', W * 0.46, H * 0.65);
+  ctx.fillText('GURUGRAM (NH-48)', W * 0.42, H * 0.36);
+  ctx.fillText('NOIDA EXPY', W * 0.74, H * 0.44);
+
+  // Highway labels
+  ctx.fillStyle = isDark ? '#38bdf8' : '#0284c7';
+  ctx.font = '700 7.5px Inter, sans-serif';
+  ctx.fillText('NE-4 EXP', W * 0.16, H * 0.44);
+  ctx.fillText('YAMUNA EXP', W * 0.86, H * 0.56);
 
   // Incident Marker Pins
-  function drawPin(x, y, color) {
+  function drawPin(x, y, color, label) {
     ctx.fillStyle = color;
-    ctx.globalAlpha = 0.22;
+    ctx.globalAlpha = isDark ? 0.35 : 0.22;
     ctx.beginPath();
-    ctx.arc(x, y, 8, 0, Math.PI * 2);
+    ctx.arc(x, y, isDark ? 10 : 8, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.globalAlpha = 1.0;
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
-    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.arc(x, y, 4.5, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = color;
     ctx.beginPath();
-    ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
     ctx.fill();
+
+    if (label && isDark) {
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = '500 7px Inter, sans-serif';
+      ctx.fillText(label, x, y - 7);
+    }
   }
 
-  drawPin(W * 0.48, H * 0.46, '#dc2626');
-  drawPin(W * 0.54, H * 0.24, '#dc2626');
-  drawPin(W * 0.72, H * 0.52, '#dc2626');
-  drawPin(W * 0.32, H * 0.48, '#ea580c');
-  drawPin(W * 0.5,  H * 0.74, '#ea580c');
-  drawPin(W * 0.65, H * 0.38, '#ea580c');
-  drawPin(W * 0.44, H * 0.38, '#005bf6');
-  drawPin(W * 0.58, H * 0.62, '#005bf6');
+  // Active incidents plotted on Indian corridors
+  drawPin(W * 0.47, H * 0.44, '#ef4444', 'KM 48');    // NE-4 KM 48 (Critical)
+  drawPin(W * 0.52, H * 0.26, '#ef4444', 'Dhaula Kuan'); // Dhaula Kuan
+  drawPin(W * 0.72, H * 0.50, '#f97316', 'Noida');      // Noida
+  drawPin(W * 0.30, H * 0.48, '#f97316');               // Western Peripheral
+  drawPin(W * 0.50, H * 0.76, '#38bdf8', 'HQ Unit');    // Dwarka HQ Unit
+  drawPin(W * 0.66, H * 0.36, '#a855f7');               // HazMat
+  drawPin(W * 0.43, H * 0.38, '#22c55e');               // Patrol
 }
 
 function drawSectorMap() {
@@ -793,6 +922,7 @@ function updateDispatchETAs() {
    INIT & EVENT REGISTRATION
 ────────────────────────────────────────── */
 window.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   renderHomeTable(homeIncidents);
   renderIncTable(allIncidents);
   renderResolutionLog();
