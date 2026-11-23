@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Traffic Command — Municipal Highway Operations Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════ NAVBAR ══════════════════════ -->
+<nav class="navbar">
+  <a class="nav-brand" href="#">
+    <div class="brand-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="2" width="14" height="20" rx="3"></rect>
+        <circle cx="12" cy="7" r="2"></circle>
+        <circle cx="12" cy="12" r="2"></circle>
+        <circle cx="12" cy="17" r="2"></circle>
+      </svg>
+    </div>
+    Traffic Command
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#" class="active" data-page="home">Home</a></li>
+    <li><a href="#" data-page="incidents">Incidents</a></li>
+    <li><a href="#" data-page="services">Services</a></li>
+    <li><a href="#" data-page="features">Features</a></li>
+    <li><a href="#" data-page="about">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      LIVE OPERATIONS • 24/7
+    </div>
+    <button class="btn-report" onclick="openReportModal()">＋ Report Incident</button>
+    <div class="avatar" title="Officer Jane Doe"></div>
+  </div>
+</nav>
+
+<!-- ══════════════════════ HOME PAGE ══════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <!-- Active Incidents -->
+    <div class="stat-card glass">
+      <div class="stat-label">
+        ACTIVE INCIDENTS
+        <div class="stat-icon blue-bg">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-value" id="stat-active">18</div>
+      <span class="stat-badge badge-blue">+2 last hr</span>
+      <div class="stat-bar"><div class="stat-bar-fill bar-blue" style="width:72%"></div></div>
+    </div>
+
+    <!-- Critical Alerts -->
+    <div class="stat-card glass">
+      <div class="stat-label">
+        CRITICAL ALERTS
+        <div class="stat-icon red-bg">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-value" style="color:var(--critical-red)" id="stat-critical">3</div>
+      <span class="stat-badge badge-red">Immediate Action</span>
+      <div class="stat-bar"><div class="stat-bar-fill bar-red" style="width:30%"></div></div>
+    </div>
+
+    <!-- Avg Response Time -->
+    <div class="stat-card glass">
+      <div class="stat-label">
+        AVG RESPONSE TIME
+        <div class="stat-icon cyan-bg">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-value" id="stat-response">6m 42s</div>
+      <span class="stat-badge badge-cyan">-18s vs target</span>
+      <div class="mini-chart">
+        <div class="mini-bar"></div>
+        <div class="mini-bar"></div>
+        <div class="mini-bar"></div>
+        <div class="mini-bar"></div>
+        <div class="mini-bar"></div>
+      </div>
+    </div>
+
+    <!-- Available Response Teams -->
+    <div class="stat-card glass">
+      <div class="stat-label">
+        AVAILABLE RESPONSE TEAMS
+        <div class="stat-icon orange-bg">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-value" id="stat-teams">12/15</div>
+      <span class="stat-badge badge-orange">80% Ready</span>
+      <div class="stat-bar"><div class="stat-bar-fill bar-orange" style="width:80%"></div></div>
+    </div>
+  </div>
+
+  <!-- Home 2-col Grid -->
+  <div class="home-grid">
+
+    <!-- Left: Priority Incidents Table -->
+    <div>
+      <div class="glass p-20">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="dot-live"></div>
+            Priority Active Incidents
+            <span class="count-badge">8 Shown</span>
+          </div>
+          <div class="filter-bar">
+            <div class="search-wrap">
+              <span class="search-icon">🔍</span>
+              <input class="search-input" id="homeSearch"
+                     placeholder="Filter ID or location…"
+                     oninput="filterHomeTable()"/>
+            </div>
+            <button class="btn-sync" onclick="syncTable()">🔄 Sync</button>
+          </div>
+        </div>
+
+        <table class="incidents-table" id="homeTable">
+          <thead>
+            <tr>
+              <th>Incident ID</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Severity</th>
+              <th>Assigned Team</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="homeTableBody"></tbody>
+        </table>
+
+        <div class="table-footer">
+          <span>Showing 8 of 18 active incidents</span>
+          <a href="#" class="view-all-link" onclick="navTo('incidents')">View Full Incident Log →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+
+      <!-- Quick Incident Report Form -->
+      <div class="glass p-20">
+        <div class="flex-between" style="margin-bottom:12px">
+          <div>
+            <div class="font-bold" style="font-size:0.95rem;color:var(--text-main)">Quick Incident Report</div>
+            <div class="text-xs text-secondary">Log &amp; dispatch field units immediately</div>
+          </div>
+          <div class="stat-icon blue-bg">🔔</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Location</label>
+          <input class="form-input" id="qLocation" placeholder="e.g., I-85 South, Exit 91"/>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-select" id="qCategory">
+              <option>Accident</option>
+              <option>Road Closure</option>
+              <option>Breakdown</option>
+              <option>Congestion</option>
+              <option>Hazmat</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Severity</label>
+            <select class="form-select" id="qSeverity">
+              <option>Critical</option>
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Response Team</label>
+          <select class="form-select" id="qTeam">
+            <option>Unit Alpha-04 (Available)</option>
+            <option>Unit Bravo-07 (Available)</option>
+            <option>HazMat-02 (Available)</option>
+            <option>Tow-11 (Available)</option>
+            <option>Signal Ops-03 (Available)</option>
+          </select>
+        </div>
+        <button class="btn-dispatch" onclick="dispatchIncident()">▷ Dispatch &amp; Log Incident</button>
+      </div>
+
+      <!-- Live Network Snapshot (mini map canvas) -->
+      <div class="glass p-20">
+        <div class="flex-between" style="margin-bottom:12px">
+          <div class="font-bold" style="font-size:0.9rem;display:flex;align-items:center;gap:6px;color:var(--text-main)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+              <line x1="8" y1="2" x2="8" y2="18"></line>
+              <line x1="16" y1="6" x2="16" y2="22"></line>
+            </svg>
+            Live Network Snapshot
+          </div>
+          <span class="count-badge" style="background:#e0f2fe;color:#0284c7;border-color:transparent">Metro Grid</span>
+        </div>
+        <div class="mini-map">
+          <canvas id="miniMapCanvas"></canvas>
+          <div class="map-legend">
+            <span><span class="legend-dot" style="background:#dc2626"></span>3 Critical</span>
+            <span><span class="legend-dot" style="background:#ea580c"></span>7 High</span>
+            <span style="margin-left:auto;color:var(--primary);cursor:pointer">Expand ↗</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /right-panel -->
+  </div><!-- /home-grid -->
+</div><!-- /page-home -->
+
+<!-- ══════════════════════ INCIDENTS PAGE ══════════════════════ -->
+<div class="page" id="page-incidents">
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card glass">
+      <div class="stat-label">ACTIVE INCIDENTS <div class="stat-icon blue-bg">📈</div></div>
+      <div class="stat-value">14</div>
+      <span class="stat-badge badge-orange">+3 vs 1h</span>
+      <div class="stat-bar"><div class="stat-bar-fill bar-blue" style="width:60%"></div></div>
+    </div>
+    <div class="stat-card glass">
+      <div class="stat-label">CRITICAL ALERTS <div class="stat-icon red-bg">⚠️</div></div>
+      <div class="stat-value" style="color:var(--critical-red)">03</div>
+      <div class="text-xs text-secondary" style="margin-top:4px">I-405 • SR-110</div>
+      <div class="stat-bar"><div class="stat-bar-fill bar-red" style="width:30%"></div></div>
+    </div>
+    <div class="stat-card glass">
+      <div class="stat-label">AVG CLEARANCE TIME <div class="stat-icon cyan-bg">⏱️</div></div>
+      <div class="stat-value">28m</div>
+      <span class="stat-badge badge-green">-12%</span>
+      <div class="stat-bar"><div class="stat-bar-fill bar-blue" style="width:48%"></div></div>
+    </div>
+    <div class="stat-card glass">
+      <div class="stat-label">UNITS DEPLOYED <div class="stat-icon orange-bg">🛡️</div></div>
+      <div class="stat-value">19</div>
+      <div class="text-xs text-secondary" style="margin-top:4px">6 Standby</div>
+      <div class="stat-bar"><div class="stat-bar-fill bar-orange" style="width:76%"></div></div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="incidents-filter-bar">
+    <div class="search-wrap-lg">
+      <span class="search-icon" style="left:12px;top:50%;position:absolute;transform:translateY(-50%)">🔍</span>
+      <input class="search-input-lg" id="incSearch"
+             placeholder="Search by Incident ID, highway corridor, or response unit…"
+             oninput="filterIncTable()"/>
+    </div>
+    <select class="select-filter" id="catFilter" onchange="filterIncTable()">
+      <option value="">All Categories</option>
+      <option>Accident</option>
+      <option>Road Closure</option>
+      <option>Vehicle Breakdown</option>
+      <option>Congestion</option>
+    </select>
+    <select class="select-filter" id="statusFilter" onchange="filterIncTable()">
+      <option value="">All Statuses</option>
+      <option>On Scene</option>
+      <option>Dispatched</option>
+      <option>En Route</option>
+      <option>Resolved</option>
+      <option>Reported</option>
+    </select>
+    <button class="btn-report" onclick="openReportModal()">＋ Report Incident</button>
+  </div>
+
+  <!-- Severity Tabs -->
+  <div class="severity-tabs">
+    <span class="sev-tab-label">SEVERITY:</span>
+    <button class="sev-tab active" onclick="filterSev(this,'all')">All</button>
+    <button class="sev-tab" onclick="filterSev(this,'Critical')">Critical</button>
+    <button class="sev-tab" onclick="filterSev(this,'High')">High</button>
+    <button class="sev-tab" onclick="filterSev(this,'Medium')">Medium</button>
+    <button class="sev-tab" onclick="filterSev(this,'Low')">Low</button>
+    <span style="margin-left:auto;font-size:0.75rem;color:var(--text-secondary)" id="incCount">Showing 7 of 7 incidents</span>
+  </div>
+
+  <!-- 2-col Layout -->
+  <div class="incidents-layout">
+    <div>
+      <div class="glass p-20">
+        <div class="flex-between" style="margin-bottom:16px">
+          <div>
+            <div class="font-bold" style="font-size:0.98rem;color:var(--text-main)">Live Incidents Queue</div>
+            <div class="text-xs text-secondary">Real-time highway telemetry &amp; dispatch assignments</div>
+          </div>
+          <span class="autosync-badge">AUTO-SYNC 15S</span>
+        </div>
+        <table class="incidents-table" id="incTable">
+          <thead>
+            <tr>
+              <th>Incident ID</th>
+              <th>Timestamp</th>
+              <th>Location</th>
+              <th>Category</th>
+              <th>Severity</th>
+              <th>Response Team</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="incTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <!-- Sector Overview mini-map -->
+      <div class="glass p-20">
+        <div class="flex-between" style="margin-bottom:10px">
+          <div class="font-bold" style="font-size:0.9rem;color:var(--text-main)">Active Sector Overview</div>
+          <span class="count-badge" style="background:#e0f2fe;color:#0284c7;border-color:transparent">Metro Grid</span>
+        </div>
+        <div class="mini-map" style="height:160px">
+          <canvas id="sectorMapCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Resolution Log -->
+      <div class="glass p-20">
+        <div class="flex-between" style="margin-bottom:12px">
+          <div>
+            <div class="font-bold" style="font-size:0.9rem;color:var(--text-main)">🕐 Incident History &amp; Resolution Log</div>
+            <div class="text-xs text-secondary">Recently cleared corridors &amp; unit notes</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px" id="resolutionLog"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-incidents -->
+
+<!-- ══════════════════════ SERVICES PAGE ══════════════════════ -->
+<div class="page" id="page-services">
+
+  <div class="services-header">
+    <div class="services-subbadge">DIVISION 04 • FIELD OPERATIONS &nbsp;·&nbsp; UPDATED 12S AGO</div>
+    <div class="services-title">Traffic Authority Dispatch &amp; Field Services</div>
+    <div class="services-desc">Real-time coordination of municipal patrol, medical response, heavy recovery, and infrastructure engineering units across all metropolitan corridors.</div>
+    <div class="services-stats-row">
+      <div class="services-stat-box">
+        <div class="services-stat-num">22/28</div>
+        <div class="services-stat-label">FLEET READY</div>
+      </div>
+      <div class="services-stat-box">
+        <div class="services-stat-num">6m 42s</div>
+        <div class="services-stat-label">AVG DISPATCH</div>
+      </div>
+      <div class="services-stat-box active-call-box">
+        <div class="services-stat-num">06</div>
+        <div class="services-stat-label">ACTIVE CALLS 📶</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-between mb-20">
+    <div class="font-bold" style="font-size:1rem;color:var(--text-main)">● Response Unit Readiness</div>
+    <span class="text-xs text-secondary">Select a division to deploy the nearest available unit</span>
+  </div>
+
+  <div class="unit-cards" id="unitCards"></div>
+
+  <!-- Active Dispatch Assignments -->
+  <div class="glass p-20">
+    <div class="flex-between" style="margin-bottom:16px">
+      <div class="font-bold" style="color:var(--text-main)">
+        Active Dispatch Assignments
+        <span class="count-badge" style="margin-left:10px;background:#eef4fe;color:var(--primary);border-color:transparent">Live Feed</span>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="dispSearch"
+               placeholder="Filter by unit, ID, or corridor…"
+               oninput="filterDisp()"/>
+      </div>
+    </div>
+    <table class="dispatch-table" id="dispTable">
+      <thead>
+        <tr>
+          <th>Assignment ID</th>
+          <th>Response Team</th>
+          <th>Incident Location</th>
+          <th>Status</th>
+          <th>ETA</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="dispTableBody"></tbody>
+    </table>
+  </div>
+
+</div><!-- /page-services -->
+
+<!-- ══════════════════════ FEATURES PAGE ══════════════════════ -->
+<div class="page" id="page-features">
+
+  <!-- Hero -->
+  <div class="features-hero">
+    <div class="features-hero-text">
+      <div class="features-subbadge">PLATFORM CAPABILITIES • V4.2</div>
+      <div class="features-title">Structured Incident Prioritization &amp; Multi-Agency Coordination</div>
+      <div class="features-desc">Built for municipal traffic authorities and highway operations centers. Traffic Command unifies field reporting, automated severity triage, and real-time unit dispatch into a single calm, high-contrast operational workspace.</div>
+      <div class="features-cta-row">
+        <button class="btn-report" onclick="showToast('📋 Exploring capabilities…')">Explore Capabilities ↓</button>
+        <button class="btn-outline" onclick="cycleLifecycle()">↗ View 4-Step Lifecycle</button>
+      </div>
+      <div class="features-metrics">
+        <div class="feat-metric"><div class="feat-metric-val">&lt; 12s</div><div class="feat-metric-label">Avg Triage Time</div></div>
+        <div class="feat-metric"><div class="feat-metric-val">99.98%</div><div class="feat-metric-label">Dispatch Uptime</div></div>
+        <div class="feat-metric"><div class="feat-metric-val">24/7</div><div class="feat-metric-label">Agency Sync</div></div>
+      </div>
+    </div>
+    <div class="features-hero-img">
+      <div class="live-sync-badge">
+        <div class="live-dot"></div>
+        Metro Highway Command — Multi-agency telemetry active
+        <span class="count-badge" style="background:#dcfce7;color:#15803d;border:none">LIVE SYNC</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Capabilities -->
+  <div style="margin-bottom:4px">
+    <div class="text-xs" style="color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">01 — CORE CAPABILITIES</div>
+    <div class="capabilities-title">Engineered for Time-Critical Clarity</div>
+    <div class="capabilities-desc">Six integrated modules designed to eliminate alert fatigue and accelerate coordinated highway response.</div>
+  </div>
+
+  <div class="capabilities-grid">
+    <div class="cap-card">
+      <div class="cap-step">01 / INTAKE</div>
+      <div class="cap-icon">📋</div>
+      <div class="cap-name">Structured Incident Reporting</div>
+      <div class="cap-desc">Standardized intake forms capture exact milepost location, incident category, lane blockage, and initial severity in seconds—eliminating ambiguous radio callouts.</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">
+        <span class="count-badge">Location</span>
+        <span class="count-badge">Category</span>
+        <span class="count-badge">Severity</span>
+      </div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-step">02 / TRIAGE</div>
+      <div class="cap-icon">⚡</div>
+      <div class="cap-name">Automated Severity Prioritization</div>
+      <div class="cap-desc">Deterministic scoring rules evaluate traffic volume, hazard type, and arterial impact to rank critical incidents at the top of the dispatch queue automatically.</div>
+      <div style="margin-top:12px"><span class="sev-pill sev-critical">P1 CRITICAL</span></div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-step">03 / DISPATCH</div>
+      <div class="cap-icon">🚐</div>
+      <div class="cap-name">Response Team Dispatch &amp; Tracking</div>
+      <div class="cap-desc">Assign DOT patrol units, tow operators, and emergency responders with one click. Monitor live unit ETA, en-route status, and on-scene arrival timestamps.</div>
+      <div style="margin-top:12px;font-size:0.72rem;color:var(--text-secondary)">🛡️ Unit 42-B • En Route (3m ETA)</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-step">04 / SPATIAL</div>
+      <div class="cap-icon">🗺️</div>
+      <div class="cap-name">Live Map-Style Visualization</div>
+      <div class="cap-desc">High-contrast geospatial canvas plots active incidents, lane closures, and nearby response units using semantic severity markers for instant corridor awareness.</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-step">05 / LIFECYCLE</div>
+      <div class="cap-icon">🔄</div>
+      <div class="cap-name">Real-Time Status Lifecycle</div>
+      <div class="cap-desc">Every incident progresses through a transparent, synchronized state machine—from Initial Reported intake through Verified, Dispatched, and Resolved.</div>
+      <div style="display:flex;gap:4px;margin-top:12px">
+        <div style="height:4px;width:20px;background:var(--primary);border-radius:2px"></div>
+        <div style="height:4px;width:30px;background:#60a5fa;border-radius:2px"></div>
+        <div style="height:4px;width:25px;background:#e2e8f0;border-radius:2px"></div>
+      </div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-step">06 / AUDIT</div>
+      <div class="cap-icon">🔒</div>
+      <div class="cap-name">Complete Incident History &amp; Audit Trail</div>
+      <div class="cap-desc">Immutable, timestamped logs record every status change, operator note, and agency handoff—supporting post-incident review and municipal compliance.</div>
+      <div style="margin-top:12px;font-size:0.7rem;color:var(--text-secondary)">14:32:08 UTC — VERIFIED LOG</div>
+    </div>
+  </div>
+
+  <!-- 4-Step Lifecycle -->
+  <div style="margin-bottom:4px">
+    <div class="text-xs" style="color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">02 — OPERATIONAL WORKFLOW</div>
+    <div class="lifecycle-title">4-Step Response Lifecycle</div>
+  </div>
+  <div class="lifecycle-steps" id="lifecycleSteps">
+    <div class="lc-step active" onclick="selectLifecycle(0)">
+      <div class="lc-step-num">STEP 01</div>
+      <div class="lc-step-icon">📡</div>
+      <div class="lc-step-name">Report</div>
+      <div class="lc-step-desc">Field or sensor intake with structured location &amp; category.</div>
+    </div>
+    <div class="lc-step" onclick="selectLifecycle(1)">
+      <div class="lc-step-num">STEP 02</div>
+      <div class="lc-step-icon">⚡</div>
+      <div class="lc-step-name">Prioritize</div>
+      <div class="lc-step-desc">Automated severity scoring ranks corridor impact.</div>
+    </div>
+    <div class="lc-step" onclick="selectLifecycle(2)">
+      <div class="lc-step-num">STEP 03</div>
+      <div class="lc-step-icon">▷</div>
+      <div class="lc-step-name">Dispatch</div>
+      <div class="lc-step-desc">Multi-agency unit assignment with live GPS tracking.</div>
+    </div>
+    <div class="lc-step" onclick="selectLifecycle(3)">
+      <div class="lc-step-num">STEP 04</div>
+      <div class="lc-step-icon">✅</div>
+      <div class="lc-step-name">Resolve</div>
+      <div class="lc-step-desc">Lane clearance verified &amp; immutable audit log archived.</div>
+    </div>
+  </div>
+  <div class="lc-detail" id="lcDetail">
+    <div class="lc-detail-icon">📡</div>
+    <div class="lc-detail-text">
+      <h4>Stage 01: Structured Intake</h4>
+      <p>Captures highway corridor, milepost, lane blockage, and initial hazard classification in under 15 seconds.</p>
+    </div>
+    <div class="lc-sla">
+      <div class="lc-sla-val">SLA: &lt; 15s Intake</div>
+      <div class="lc-sla-label">Time Target</div>
+    </div>
+  </div>
+
+</div><!-- /page-features -->
+
+<!-- ══════════════════════ ABOUT PAGE ══════════════════════ -->
+<div class="page" id="page-about">
+
+  <!-- Hero -->
+  <div class="about-hero">
+    <div>
+      <div class="about-eyebrow">01 / MUNICIPAL TRAFFIC OPERATIONS AUTHORITY</div>
+      <div class="about-title">Keeping Regional Corridors Safe, Clear, and Connected</div>
+      <div class="about-desc">As the central nervous system of metropolitan mobility, Traffic Command unites real-time telemetry, predictive signal engineering, and rapid field dispatch to protect commuters and sustain regional commerce across every mile of our highway network.</div>
+      <div class="about-cta-row">
+        <button class="btn-report" onclick="showToast('📐 Command architecture details…')">Explore Command Architecture ↓</button>
+        <button class="btn-secondary" onclick="showToast('📞 Operations Center: (555) 019-2470')">📞 Operations Center</button>
+      </div>
+    </div>
+    <div class="about-img-box">
+      <div class="about-img-label">
+        <div class="live-dot"></div>
+        Centralized Corridor Telemetry Active — LIVE 24/7
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="about-stats-row">
+    <div class="about-stat-card">
+      <div class="about-stat-val">24/7</div>
+      <div class="about-stat-name">Command Coverage</div>
+      <div class="about-stat-desc">Uninterrupted multi-shift oversight across all regional expressways, arterial junctions, and tunnel systems.</div>
+    </div>
+    <div class="about-stat-card">
+      <div class="about-stat-val">140+</div>
+      <div class="about-stat-name">Miles Monitored</div>
+      <div class="about-stat-desc">Instrumented with inductive loop detectors, HD PTZ cameras, and automated incident detection sensors.</div>
+    </div>
+    <div class="about-stat-card">
+      <div class="about-stat-val">&lt; 7 Min</div>
+      <div class="about-stat-name">Avg Dispatch Time</div>
+      <div class="about-stat-desc">From initial sensor alert or 911 relay to verified field unit deployment on-scene. Target Met.</div>
+    </div>
+  </div>
+
+  <!-- Architecture -->
+  <div style="margin-bottom:4px">
+    <div class="text-xs" style="color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">02 / OPERATIONAL SYNERGY</div>
+    <div class="architecture-title">Our Command Architecture</div>
+    <div class="architecture-desc">Seamless coordination between three specialized divisions ensures every incident is detected, verified, and cleared with minimal disruption to regional traffic flow.</div>
+  </div>
+  <div class="architecture-layout mb-28">
+    <div class="arch-entries">
+      <div class="arch-entry">
+        <div class="arch-num">01</div>
+        <div class="arch-text">
+          <h4>Central Dispatchers <span class="arch-badge arch-badge-triage">TRIAGE &amp; RELAY</span></h4>
+          <p>Monitor live camera feeds and automated sensor alerts around the clock, verifying incident severity within seconds and coordinating multi-agency emergency response.</p>
+        </div>
+      </div>
+      <div class="arch-entry">
+        <div class="arch-num">02</div>
+        <div class="arch-text">
+          <h4>Field Response Teams <span class="arch-badge arch-badge-clear">ON-SCENE CLEARANCE</span></h4>
+          <p>Patrol strategic highway sectors in equipped incident response vehicles, establishing safe work zones, assisting stranded motorists, and clearing debris rapidly.</p>
+        </div>
+      </div>
+      <div class="arch-entry">
+        <div class="arch-num">03</div>
+        <div class="arch-text">
+          <h4>Traffic Systems Engineers <span class="arch-badge arch-badge-opt">SIGNAL OPTIMIZATION</span></h4>
+          <p>Dynamically adjust arterial signal timings, activate variable message signs, and model detour corridors to prevent secondary congestion during major events.</p>
+        </div>
+      </div>
+    </div>
+    <div class="arch-img-box">
+      <div class="arch-img-label">
+        <div class="live-dot" style="background:var(--success-green)"></div>
+        Real-Time Verification &amp; Dispatch Active
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div>
+    <div class="text-xs" style="color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">03 / DIRECT ACCESS</div>
+    <div class="contact-title" style="font-size:1.15rem;font-weight:800;color:var(--text-main);margin-bottom:4px">Contact &amp; Operations Center</div>
+    <div class="contact-desc" style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:20px">Reach our 24/7 municipal dispatch desk for urgent corridor incidents, agency coordination, or infrastructure inquiries.</div>
+    <div class="contact-layout">
+      <div class="contact-entries">
+        <div class="contact-entry">
+          <div class="contact-icon">📞</div>
+          <div class="contact-text">
+            <h4>Emergency Dispatch Hotline</h4>
+            <p>(555) 019-2470</p>
+            <small>Direct 24/7 Priority Line • Dial 911 for life-safety emergencies</small>
+          </div>
+        </div>
+        <div class="contact-entry">
+          <div class="contact-icon">📍</div>
+          <div class="contact-text">
+            <h4>Headquarters Address</h4>
+            <p>450 Civic Center Plaza, Suite 200</p>
+            <small>Municipal Traffic Operations Authority • Metro District</small>
+          </div>
+        </div>
+        <div class="contact-entry">
+          <div class="contact-icon" style="background:#dcfce7;color:#15803d">🟢</div>
+          <div class="contact-text">
+            <h4>System Status</h4>
+            <p style="color:var(--success-green);font-weight:600">All Telemetry &amp; Dispatch Systems Operational</p>
+            <small>99.98% Uptime</small>
+          </div>
+        </div>
+      </div>
+      <div class="contact-map-box">
+        <div class="contact-map-label">
+          <div class="live-dot"></div>
+          Operations Command Hub · Sector 01
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-about -->
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+  <span>© 2025 Traffic Command. Municipal Highway Operations Center.</span>
+  <span>All systems operational • 24/7 Dispatch</span>
+</footer>
+
+<!-- Toast Notifications -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Report Incident Modal -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeReportModal()">✕</button>
+    <div class="modal-title">📡 Report New Incident</div>
+    <div class="modal-sub">Log &amp; dispatch field units immediately</div>
+    <div class="form-group">
+      <label class="form-label">Location / Corridor</label>
+      <input class="form-input" id="mLocation" placeholder="e.g., I-285 Westbound, Mile 42"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="mCategory">
+          <option>Accident</option>
+          <option>Road Closure</option>
+          <option>Breakdown</option>
+          <option>Congestion</option>
+          <option>Hazmat</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Severity</label>
+        <select class="form-select" id="mSeverity">
+          <option>Critical</option>
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Response Team</label>
+      <select class="form-select" id="mTeam">
+        <option>Auto-Assign (Recommended)</option>
+        <option>Unit Alpha-04</option>
+        <option>Unit Bravo-07</option>
+        <option>HazMat-02</option>
+        <option>Tow-11</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Additional Notes</label>
+      <input class="form-input" id="mNotes" placeholder="Lane blockage, hazard details…"/>
+    </div>
+    <button class="btn-dispatch" onclick="submitReport()">▷ Dispatch &amp; Log Incident</button>
+  </div>
+</div>
+
+<!-- JavaScript (external) -->
+<script src="js/main.js"></script>
+</body>
+</html>
