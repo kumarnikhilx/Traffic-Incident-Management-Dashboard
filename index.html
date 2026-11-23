@@ -13,17 +13,27 @@
 
 <!-- ══════════════════════ NAVBAR ══════════════════════ -->
 <nav class="navbar">
-  <a class="nav-brand" href="#">
-    <div class="brand-icon">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="5" y="2" width="14" height="20" rx="3"></rect>
-        <circle cx="12" cy="7" r="2"></circle>
-        <circle cx="12" cy="12" r="2"></circle>
-        <circle cx="12" cy="17" r="2"></circle>
+  <div class="nav-brand-wrap">
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
-    </div>
-    Traffic Command
-  </a>
+    </button>
+    <a class="nav-brand" href="#" onclick="navTo('home'); return false;">
+      <div class="brand-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="3"></rect>
+          <circle cx="12" cy="7" r="2"></circle>
+          <circle cx="12" cy="12" r="2"></circle>
+          <circle cx="12" cy="17" r="2"></circle>
+        </svg>
+      </div>
+      <span>Traffic Command</span>
+    </a>
+  </div>
+
   <ul class="nav-links" id="navLinks">
     <li><a href="#" class="active" data-page="home">Home</a></li>
     <li><a href="#" data-page="incidents">Incidents</a></li>
@@ -31,12 +41,16 @@
     <li><a href="#" data-page="features">Features</a></li>
     <li><a href="#" data-page="about">About</a></li>
   </ul>
+
   <div class="nav-right">
     <div class="live-badge">
       <div class="live-dot"></div>
-      LIVE OPERATIONS • 24/7
+      <span class="live-text">LIVE OPERATIONS • 24/7</span>
     </div>
-    <button class="btn-report" onclick="openReportModal()">＋ Report Incident</button>
+    <button class="btn-report" onclick="openReportModal()">
+      <span>＋</span>
+      <span class="btn-report-text">Report Incident</span>
+    </button>
     <div class="avatar" title="Officer Jane Doe"></div>
   </div>
 </nav>
@@ -142,19 +156,21 @@
           </div>
         </div>
 
-        <table class="incidents-table" id="homeTable">
-          <thead>
-            <tr>
-              <th>Incident ID</th>
-              <th>Category</th>
-              <th>Location</th>
-              <th>Severity</th>
-              <th>Assigned Team</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="homeTableBody"></tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="incidents-table" id="homeTable">
+            <thead>
+              <tr>
+                <th>Incident ID</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Severity</th>
+                <th>Assigned Team</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="homeTableBody"></tbody>
+          </table>
+        </div>
 
         <div class="table-footer">
           <span>Showing 8 of 18 active incidents</span>
@@ -280,22 +296,24 @@
              placeholder="Search by Incident ID, highway corridor, or response unit…"
              oninput="filterIncTable()"/>
     </div>
-    <select class="select-filter" id="catFilter" onchange="filterIncTable()">
-      <option value="">All Categories</option>
-      <option>Accident</option>
-      <option>Road Closure</option>
-      <option>Vehicle Breakdown</option>
-      <option>Congestion</option>
-    </select>
-    <select class="select-filter" id="statusFilter" onchange="filterIncTable()">
-      <option value="">All Statuses</option>
-      <option>On Scene</option>
-      <option>Dispatched</option>
-      <option>En Route</option>
-      <option>Resolved</option>
-      <option>Reported</option>
-    </select>
-    <button class="btn-report" onclick="openReportModal()">＋ Report Incident</button>
+    <div class="filter-controls-group">
+      <select class="select-filter" id="catFilter" onchange="filterIncTable()">
+        <option value="">All Categories</option>
+        <option>Accident</option>
+        <option>Road Closure</option>
+        <option>Vehicle Breakdown</option>
+        <option>Congestion</option>
+      </select>
+      <select class="select-filter" id="statusFilter" onchange="filterIncTable()">
+        <option value="">All Statuses</option>
+        <option>On Scene</option>
+        <option>Dispatched</option>
+        <option>En Route</option>
+        <option>Resolved</option>
+        <option>Reported</option>
+      </select>
+      <button class="btn-report" onclick="openReportModal()">＋ Report Incident</button>
+    </div>
   </div>
 
   <!-- Severity Tabs -->
@@ -320,21 +338,23 @@
           </div>
           <span class="autosync-badge">AUTO-SYNC 15S</span>
         </div>
-        <table class="incidents-table" id="incTable">
-          <thead>
-            <tr>
-              <th>Incident ID</th>
-              <th>Timestamp</th>
-              <th>Location</th>
-              <th>Category</th>
-              <th>Severity</th>
-              <th>Response Team</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="incTableBody"></tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="incidents-table" id="incTable">
+            <thead>
+              <tr>
+                <th>Incident ID</th>
+                <th>Timestamp</th>
+                <th>Location</th>
+                <th>Category</th>
+                <th>Severity</th>
+                <th>Response Team</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="incTableBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -388,7 +408,7 @@
     </div>
   </div>
 
-  <div class="flex-between mb-20">
+  <div class="flex-between mb-20" style="flex-wrap:wrap;gap:8px">
     <div class="font-bold" style="font-size:1rem;color:var(--text-main)">● Response Unit Readiness</div>
     <span class="text-xs text-secondary">Select a division to deploy the nearest available unit</span>
   </div>
@@ -397,7 +417,7 @@
 
   <!-- Active Dispatch Assignments -->
   <div class="glass p-20">
-    <div class="flex-between" style="margin-bottom:16px">
+    <div class="flex-between" style="margin-bottom:16px;flex-wrap:wrap;gap:10px">
       <div class="font-bold" style="color:var(--text-main)">
         Active Dispatch Assignments
         <span class="count-badge" style="margin-left:10px;background:#eef4fe;color:var(--primary);border-color:transparent">Live Feed</span>
@@ -409,19 +429,21 @@
                oninput="filterDisp()"/>
       </div>
     </div>
-    <table class="dispatch-table" id="dispTable">
-      <thead>
-        <tr>
-          <th>Assignment ID</th>
-          <th>Response Team</th>
-          <th>Incident Location</th>
-          <th>Status</th>
-          <th>ETA</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="dispTableBody"></tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="dispatch-table" id="dispTable">
+        <thead>
+          <tr>
+            <th>Assignment ID</th>
+            <th>Response Team</th>
+            <th>Incident Location</th>
+            <th>Status</th>
+            <th>ETA</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="dispTableBody"></tbody>
+      </table>
+    </div>
   </div>
 
 </div><!-- /page-services -->

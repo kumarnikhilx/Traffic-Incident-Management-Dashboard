@@ -1,21 +1,22 @@
 /* ==========================================================================
    TRAFFIC COMMAND — MAIN JAVASCRIPT
+   Features: Real-time Multi-Page Telemetry, Live Dispatch, Instant Sync
    Pages: Home, Incidents, Services, Features, About
-   Theme: Exact Match to Uploaded Screenshots (Light Theme)
+   Theme: Pixel-faithful Light Enterprise Theme
    ========================================================================== */
 
 /* ──────────────────────────────────────────
-   DATA
+   STATE & DATA STORE
 ────────────────────────────────────────── */
 const homeIncidents = [
-  { id: '#INC-4092', cat: 'Accident',      icon: '🚗', iconColor: '#dc2626', loc: 'I-95 Northbound, Exit 24',     sev: 'Critical', team: 'Unit Alpha-04', status: 'On Scene'   },
-  { id: '#INC-4091', cat: 'Road Closure',  icon: '🚫', iconColor: '#ea580c', loc: 'SR-400 East & Peachtree',      sev: 'Critical', team: 'HazMat-02',     status: 'En Route'   },
-  { id: '#INC-4089', cat: 'Breakdown',     icon: '🚘', iconColor: '#ea580c', loc: 'I-285 Westbound, Mile 14',     sev: 'High',     team: 'Tow-11',        status: 'Dispatched' },
-  { id: '#INC-4087', cat: 'Congestion',    icon: '🚦', iconColor: '#0284c7', loc: 'Downtown Connector, Exit 248', sev: 'Medium',   team: 'Signal Ops-03', status: 'On Scene'   },
-  { id: '#INC-4085', cat: 'Accident',      icon: '🚗', iconColor: '#dc2626', loc: 'US-78 East, Bridge Overpass',  sev: 'Critical', team: 'Unit Bravo-07', status: 'On Scene'   },
-  { id: '#INC-4082', cat: 'Breakdown',     icon: '🚘', iconColor: '#ea580c', loc: 'I-20 Westbound, Exit 51B',     sev: 'High',     team: 'HERO Unit-19',  status: 'En Route'   },
-  { id: '#INC-4079', cat: 'Congestion',    icon: '🚦', iconColor: '#0284c7', loc: 'Midtown Tunnel Approach',      sev: 'Medium',   team: 'Patrol-08',     status: 'Dispatched' },
-  { id: '#INC-4076', cat: 'Road Closure',  icon: '🚫', iconColor: '#ea580c', loc: 'Memorial Dr & Capitol Ave',    sev: 'High',     team: 'DOT Crew-05',   status: 'On Scene'   },
+  { id: '#INC-4092', cat: 'Accident',      icon: '🚗', loc: 'I-95 Northbound, Exit 24',     sev: 'Critical', team: 'Unit Alpha-04', status: 'On Scene'   },
+  { id: '#INC-4091', cat: 'Road Closure',  icon: '🚫', loc: 'SR-400 East & Peachtree',      sev: 'Critical', team: 'HazMat-02',     status: 'En Route'   },
+  { id: '#INC-4089', cat: 'Breakdown',     icon: '🚘', loc: 'I-285 Westbound, Mile 14',     sev: 'High',     team: 'Tow-11',        status: 'Dispatched' },
+  { id: '#INC-4087', cat: 'Congestion',    icon: '🚦', loc: 'Downtown Connector, Exit 248', sev: 'Medium',   team: 'Signal Ops-03', status: 'On Scene'   },
+  { id: '#INC-4085', cat: 'Accident',      icon: '🚗', loc: 'US-78 East, Bridge Overpass',  sev: 'Critical', team: 'Unit Bravo-07', status: 'On Scene'   },
+  { id: '#INC-4082', cat: 'Breakdown',     icon: '🚘', loc: 'I-20 Westbound, Exit 51B',     sev: 'High',     team: 'HERO Unit-19',  status: 'En Route'   },
+  { id: '#INC-4079', cat: 'Congestion',    icon: '🚦', loc: 'Midtown Tunnel Approach',      sev: 'Medium',   team: 'Patrol-08',     status: 'Dispatched' },
+  { id: '#INC-4076', cat: 'Road Closure',  icon: '🚫', loc: 'Memorial Dr & Capitol Ave',    sev: 'High',     team: 'DOT Crew-05',   status: 'On Scene'   },
 ];
 
 const allIncidents = [
@@ -50,20 +51,20 @@ const resolutionEntries = [
 ];
 
 const unitData = [
-  { icon: '🛡️', name: 'Highway Patrol Units',             avail: '4/5 Available', pct: 80,  desc: 'High-speed pursuit, lane enforcement, and primary incident perimeter control.',                 dispatch: '3m 40s',  zone: 'I-95 & Metro Loop'      },
-  { icon: '🚑', name: 'Emergency Medical Response (EMS)', avail: '6/8 Available', pct: 75,  desc: 'Advanced life support ambulances and trauma triage teams for collision injuries.',               dispatch: '4m 15s',  zone: 'All Municipal Sectors'  },
-  { icon: '🏗️', name: 'Heavy Tow & Vehicle Recovery',    avail: '3/4 Available', pct: 75,  desc: 'Rotator cranes and heavy-duty wreckers for commercial freight and multi-car clearance.',         dispatch: '11m 20s', zone: 'Expressway & Bridges'   },
-  { icon: '🔧', name: 'Road Closure & Barrier Crews',     avail: '5/6 Available', pct: 83,  desc: 'Rapid-deploy attenuator trucks, portable signage, and detour channelization.',                  dispatch: '8m 05s',  zone: 'Arterial & Tunnels'     },
-  { icon: '🚦', name: 'Traffic Signal Engineering',        avail: '2/3 Available', pct: 67,  desc: 'Intersection cabinet repair, adaptive timing overrides, and smart-grid restoration.',           dispatch: '14m 30s', zone: 'Central Business Dist.' },
-  { icon: '⚗️', name: 'Hazmat & Spill Response',          avail: '2/2 Available', pct: 100, desc: 'Chemical containment, fuel spill neutralization, and environmental safety sweeps.',             dispatch: '6m 50s',  zone: 'Industrial & Freight'   },
+  { icon: '🛡️', name: 'Highway Patrol Units',             current: 4, total: 5, desc: 'High-speed pursuit, lane enforcement, and primary incident perimeter control.',                 dispatch: '3m 40s',  zone: 'I-95 & Metro Loop'      },
+  { icon: '🚑', name: 'Emergency Medical Response (EMS)', current: 6, total: 8, desc: 'Advanced life support ambulances and trauma triage teams for collision injuries.',               dispatch: '4m 15s',  zone: 'All Municipal Sectors'  },
+  { icon: '🏗️', name: 'Heavy Tow & Vehicle Recovery',    current: 3, total: 4, desc: 'Rotator cranes and heavy-duty wreckers for commercial freight and multi-car clearance.',         dispatch: '11m 20s', zone: 'Expressway & Bridges'   },
+  { icon: '🔧', name: 'Road Closure & Barrier Crews',     current: 5, total: 6, desc: 'Rapid-deploy attenuator trucks, portable signage, and detour channelization.',                  dispatch: '8m 05s',  zone: 'Arterial & Tunnels'     },
+  { icon: '🚦', name: 'Traffic Signal Engineering',        current: 2, total: 3, desc: 'Intersection cabinet repair, adaptive timing overrides, and smart-grid restoration.',           dispatch: '14m 30s', zone: 'Central Business Dist.' },
+  { icon: '⚗️', name: 'Hazmat & Spill Response',          current: 2, total: 2, desc: 'Chemical containment, fuel spill neutralization, and environmental safety sweeps.',             dispatch: '6m 50s',  zone: 'Industrial & Freight'   },
 ];
 
 const dispatchData = [
-  { id: '#DSP-4092', team: 'Highway Patrol • Unit 14', loc: 'I-95 Northbound, Milepost 42.8', status: 'On Scene', eta: 'Arrived' },
-  { id: '#DSP-4091', team: 'EMS • Medic 07',           loc: 'I-95 Northbound, Milepost 42.8', status: 'En Route', eta: '02m 15s' },
-  { id: '#DSP-4088', team: 'Heavy Tow • Rig 03',       loc: 'Harbor Bridge Eastbound, Lane 1', status: 'En Route', eta: '06m 40s' },
-  { id: '#DSP-4085', team: 'Signal Eng. • Crew 02',    loc: '5th Ave & Pine St Intersection', status: 'On Scene', eta: 'Arrived' },
-  { id: '#DSP-4081', team: 'Barrier Crew • Unit 05',   loc: 'Midtown Tunnel Approach, West',  status: 'Staging',  eta: '01m 10s' },
+  { id: '#DSP-4092', team: 'Highway Patrol • Unit 14', loc: 'I-95 Northbound, Milepost 42.8', status: 'On Scene', eta: 'Arrived', etaSeconds: 0 },
+  { id: '#DSP-4091', team: 'EMS • Medic 07',           loc: 'I-95 Northbound, Milepost 42.8', status: 'En Route', eta: '02m 15s', etaSeconds: 135 },
+  { id: '#DSP-4088', team: 'Heavy Tow • Rig 03',       loc: 'Harbor Bridge Eastbound, Lane 1', status: 'En Route', eta: '06m 40s', etaSeconds: 400 },
+  { id: '#DSP-4085', team: 'Signal Eng. • Crew 02',    loc: '5th Ave & Pine St Intersection', status: 'On Scene', eta: 'Arrived', etaSeconds: 0 },
+  { id: '#DSP-4081', team: 'Barrier Crew • Unit 05',   loc: 'Midtown Tunnel Approach, West',  status: 'Staging',  eta: '01m 10s', etaSeconds: 70 },
 ];
 
 const lifecycleData = [
@@ -73,10 +74,31 @@ const lifecycleData = [
   { icon: '✅', name: 'Stage 04: Resolution & Archive',     desc: 'Lane clearance verified by field unit, incident sealed with tamper-proof audit log and TMC sign-off.',                         sla: 'SLA: < 3min Archive' },
 ];
 
+let globalStats = {
+  activeIncidents: 18,
+  criticalAlerts: 3,
+  activeCalls: 6,
+  unitsDeployed: 19
+};
+
+let incCounter = 4100;
+let currentSevFilter = 'all';
+
+/* ──────────────────────────────────────────
+   TIME & TIMESTAMP HELPERS
+────────────────────────────────────────── */
+function getCurrentTimeFormatted() {
+  const now = new Date();
+  return now.toTimeString().split(' ')[0];
+}
+
 /* ──────────────────────────────────────────
    NAVIGATION
 ────────────────────────────────────────── */
 function navTo(page) {
+  const navLinks = document.getElementById('navLinks');
+  if (navLinks) navLinks.classList.remove('mobile-open');
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById('page-' + page);
   if (target) target.classList.add('active');
@@ -85,8 +107,18 @@ function navTo(page) {
     a.classList.toggle('active', a.dataset.page === page);
   });
 
-  if (page === 'incidents') setTimeout(drawSectorMap, 80);
-  if (page === 'home') setTimeout(() => drawMiniMap('miniMapCanvas'), 80);
+  // Render context-specific maps or tables promptly
+  if (page === 'home') {
+    renderHomeTable(homeIncidents);
+    setTimeout(() => drawMiniMap('miniMapCanvas'), 50);
+  } else if (page === 'incidents') {
+    renderIncTable(allIncidents);
+    renderResolutionLog();
+    setTimeout(() => drawSectorMap(), 50);
+  } else if (page === 'services') {
+    renderUnitCards();
+    renderDispTable(dispatchData);
+  }
 }
 
 document.querySelectorAll('.nav-links a').forEach(a => {
@@ -122,26 +154,31 @@ function statusClass(s) {
 function renderHomeTable(data) {
   const tbody = document.getElementById('homeTableBody');
   if (!tbody) return;
-  tbody.innerHTML = data.map(r => `
-    <tr>
-      <td><a class="inc-id" href="#" onclick="showToast('📋 Viewing ${r.id}')">${r.id}</a></td>
+  tbody.innerHTML = data.map((r, index) => `
+    <tr class="${r.isNew ? 'row-highlight' : ''}">
+      <td><a class="inc-id" href="#" onclick="showToast('📋 Incident ${r.id}: ${r.loc}')">${r.id}</a></td>
       <td>
         <span style="display:inline-flex;align-items:center;gap:6px">
           <span>${r.icon || '🚗'}</span>
           <span>${r.cat}</span>
         </span>
       </td>
-      <td>${r.loc}</td>
+      <td style="font-weight:500">${r.loc}</td>
       <td><span class="sev-pill ${sevClass(r.sev)}">${r.sev}</span></td>
       <td>${r.team}</td>
-      <td><span class="status-pill ${statusClass(r.status)}">${r.status}</span></td>
+      <td>
+        <span class="status-pill ${statusClass(r.status)}" onclick="cycleIncidentStatus('${r.id}', 'home')" title="Click to update status">
+          ${r.status}
+        </span>
+      </td>
     </tr>
   `).join('');
 }
 
 function filterHomeTable() {
-  const q = document.getElementById('homeSearch').value.toLowerCase();
+  const q = document.getElementById('homeSearch').value.trim().toLowerCase();
   const filtered = homeIncidents.filter(r =>
+    !q ||
     r.id.toLowerCase().includes(q) ||
     r.loc.toLowerCase().includes(q) ||
     r.cat.toLowerCase().includes(q) ||
@@ -151,25 +188,30 @@ function filterHomeTable() {
 }
 
 /* ──────────────────────────────────────────
-   INCIDENTS TABLE
+   INCIDENTS QUEUE TABLE
 ────────────────────────────────────────── */
-let currentSevFilter = 'all';
-
 function renderIncTable(data) {
   const tbody = document.getElementById('incTableBody');
   if (!tbody) return;
   tbody.innerHTML = data.map(r => `
-    <tr>
-      <td><a class="inc-id" href="#" onclick="showToast('📋 Viewing ${r.id}')">${r.id}</a></td>
-      <td style="color:var(--text-secondary)">${r.ts}</td>
+    <tr class="${r.isNew ? 'row-highlight' : ''}">
+      <td><a class="inc-id" href="#" onclick="showToast('📋 Incident ${r.id}: ${r.loc}')">${r.id}</a></td>
+      <td style="color:var(--text-secondary);font-variant-numeric:tabular-nums">${r.ts}</td>
       <td style="font-weight:500">${r.loc}</td>
       <td>${r.cat}</td>
       <td><span class="sev-pill ${sevClass(r.sev)}">${r.sev}</span></td>
       <td>${r.team}</td>
-      <td><span class="status-pill ${statusClass(r.status)}">${r.status}</span></td>
-      <td><button class="btn-track" onclick="showToast('📍 Tracking ${r.id}')">⋮</button></td>
+      <td>
+        <span class="status-pill ${statusClass(r.status)}" onclick="cycleIncidentStatus('${r.id}', 'incidents')" title="Click to advance status">
+          ${r.status}
+        </span>
+      </td>
+      <td>
+        <button class="btn-track" onclick="cycleIncidentStatus('${r.id}', 'incidents')" title="Quick Status Action">⋮</button>
+      </td>
     </tr>
   `).join('');
+
   const countEl = document.getElementById('incCount');
   if (countEl) {
     countEl.textContent = `Showing ${data.length} of ${allIncidents.length} incidents`;
@@ -177,7 +219,7 @@ function renderIncTable(data) {
 }
 
 function filterIncTable() {
-  const q   = document.getElementById('incSearch').value.toLowerCase();
+  const q   = document.getElementById('incSearch').value.trim().toLowerCase();
   const cat = document.getElementById('catFilter').value;
   const st  = document.getElementById('statusFilter').value;
   const data = allIncidents.filter(r => {
@@ -194,6 +236,50 @@ function filterSev(btn, sev) {
   document.querySelectorAll('.sev-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   currentSevFilter = sev;
+  filterIncTable();
+}
+
+/* ──────────────────────────────────────────
+   STATUS LIFECYCLE PROGRESSION (INTERACTIVE ACTION)
+────────────────────────────────────────── */
+function cycleIncidentStatus(id, sourcePage) {
+  const normId = id.replace('#', '');
+  const nextStatuses = {
+    'Reported': 'Dispatched',
+    'Dispatched': 'On Scene',
+    'On Scene': 'Resolved',
+    'Resolved': 'On Scene',
+    'En Route': 'On Scene'
+  };
+
+  // Update in homeIncidents
+  const hItem = homeIncidents.find(x => x.id.replace('#', '') === normId);
+  // Update in allIncidents
+  const aItem = allIncidents.find(x => x.id.replace('#', '') === normId);
+
+  const curStatus = (hItem && hItem.status) || (aItem && aItem.status) || 'Dispatched';
+  const newStatus = nextStatuses[curStatus] || 'On Scene';
+
+  if (hItem) hItem.status = newStatus;
+  if (aItem) aItem.status = newStatus;
+
+  // If marked resolved, update stats and resolution log
+  if (newStatus === 'Resolved') {
+    globalStats.activeIncidents = Math.max(0, globalStats.activeIncidents - 1);
+    updateMetricCounters();
+    resolutionEntries.unshift({
+      id: `${id} • Corridors Verified`,
+      cleared: `${Math.floor(Math.random() * 20) + 10}m`,
+      note: `Unit handoff complete. Corridors cleared, barriers verified, and normal highway flow resumed.`,
+      time: `Resolved at ${getCurrentTimeFormatted()} • Verified by TMC-01`
+    });
+    renderResolutionLog();
+    showToast(`✅ ${id} marked as RESOLVED & logged to archive!`);
+  } else {
+    showToast(`⚡ ${id} status updated to: ${newStatus}`);
+  }
+
+  renderHomeTable(homeIncidents);
   filterIncTable();
 }
 
@@ -221,22 +307,50 @@ function renderResolutionLog() {
 function renderUnitCards() {
   const container = document.getElementById('unitCards');
   if (!container) return;
-  container.innerHTML = unitData.map(u => `
-    <div class="unit-card">
-      <div class="unit-card-top">
-        <div class="unit-icon">${u.icon}</div>
-        <span class="stat-badge badge-blue">${u.avail}</span>
+  container.innerHTML = unitData.map((u, idx) => {
+    const pct = Math.round((u.current / u.total) * 100);
+    return `
+      <div class="unit-card">
+        <div class="unit-card-top">
+          <div class="unit-icon">${u.icon}</div>
+          <span class="stat-badge badge-blue">${u.current}/${u.total} Available</span>
+        </div>
+        <div class="unit-name">${u.name}</div>
+        <div class="unit-desc">${u.desc}</div>
+        <div class="unit-progress"><div class="unit-progress-fill" style="width:${pct}%"></div></div>
+        <div class="unit-meta">
+          <div class="unit-meta-item"><label>AVG DISPATCH</label><span>${u.dispatch}</span></div>
+          <div class="unit-meta-item"><label>COVERAGE ZONE</label><span>${u.zone}</span></div>
+        </div>
+        <button class="btn-dispatch-unit" onclick="deploySpecificUnit(${idx})">▷ Dispatch Unit</button>
       </div>
-      <div class="unit-name">${u.name}</div>
-      <div class="unit-desc">${u.desc}</div>
-      <div class="unit-progress"><div class="unit-progress-fill" style="width:${u.pct}%"></div></div>
-      <div class="unit-meta">
-        <div class="unit-meta-item"><label>AVG DISPATCH</label><span>${u.dispatch}</span></div>
-        <div class="unit-meta-item"><label>COVERAGE ZONE</label><span>${u.zone}</span></div>
-      </div>
-      <button class="btn-dispatch-unit" onclick="showToast('🚀 ${u.name} dispatched!')">▷ Dispatch Unit</button>
-    </div>
-  `).join('');
+    `;
+  }).join('');
+}
+
+/* Deploy unit button action: updates readiness and adds active assignment immediately */
+function deploySpecificUnit(idx) {
+  const u = unitData[idx];
+  if (u.current > 0) {
+    u.current -= 1;
+  }
+  globalStats.activeCalls += 1;
+  updateMetricCounters();
+
+  const newDspId = `#DSP-${Math.floor(1000 + Math.random() * 9000)}`;
+  dispatchData.unshift({
+    id: newDspId,
+    team: `${u.name.split(' ')[0]} • Unit ${Math.floor(10 + Math.random() * 90)}`,
+    loc: `${u.zone}, Sector ${Math.floor(1 + Math.random() * 8)}`,
+    status: 'En Route',
+    eta: '04m 30s',
+    etaSeconds: 270,
+    isNew: true
+  });
+
+  renderUnitCards();
+  renderDispTable(dispatchData);
+  showToast(`🚀 ${u.name} dispatched! Assignment ${newDspId} active.`);
 }
 
 /* ──────────────────────────────────────────
@@ -246,16 +360,16 @@ function renderDispTable(data) {
   const tbody = document.getElementById('dispTableBody');
   if (!tbody) return;
   tbody.innerHTML = data.map(r => `
-    <tr>
+    <tr class="${r.isNew ? 'row-highlight' : ''}">
       <td><a class="inc-id" href="#" onclick="showToast('📋 ${r.id}')">${r.id}</a></td>
       <td style="font-weight:500">${r.team}</td>
       <td>${r.loc}</td>
       <td><span class="status-pill ${statusClass(r.status)}">${r.status}</span></td>
-      <td style="font-weight:600;color:var(--text-main)">${r.eta}</td>
+      <td style="font-weight:600;color:var(--text-main);font-variant-numeric:tabular-nums">${r.eta}</td>
       <td>
         ${(r.status === 'On Scene' || r.eta === 'Arrived')
-          ? `<button class="btn-track" onclick="showToast('📋 Log for ${r.id}')">View Log</button>`
-          : `<button class="btn-track" onclick="showToast('📍 Tracking ${r.id}')">Track</button>`
+          ? `<button class="btn-track" onclick="showToast('📋 Log for ${r.id}: Clearance in progress')">View Log</button>`
+          : `<button class="btn-track" onclick="showToast('📍 Live GPS: ${r.team} is ${r.eta} away')">Track</button>`
         }
       </td>
     </tr>
@@ -263,8 +377,9 @@ function renderDispTable(data) {
 }
 
 function filterDisp() {
-  const q = document.getElementById('dispSearch').value.toLowerCase();
+  const q = document.getElementById('dispSearch').value.trim().toLowerCase();
   const data = dispatchData.filter(r =>
+    !q ||
     r.id.toLowerCase().includes(q) ||
     r.team.toLowerCase().includes(q) ||
     r.loc.toLowerCase().includes(q)
@@ -302,12 +417,13 @@ function selectLifecycle(idx) {
 function cycleLifecycle() {
   lcActive = (lcActive + 1) % 4;
   selectLifecycle(lcActive);
+  showToast(`↗ Switched to: ${lifecycleData[lcActive].name}`);
 }
 
 /* ──────────────────────────────────────────
    TOAST NOTIFICATIONS
 ────────────────────────────────────────── */
-function showToast(msg, duration = 3000) {
+function showToast(msg, duration = 2800) {
   const tc = document.getElementById('toastContainer');
   if (!tc) return;
   const t = document.createElement('div');
@@ -317,7 +433,7 @@ function showToast(msg, duration = 3000) {
   setTimeout(() => {
     t.style.opacity = '0';
     t.style.transform = 'translateY(10px)';
-    t.style.transition = 'all 0.25s';
+    t.style.transition = 'all 0.25s ease';
     setTimeout(() => t.remove(), 250);
   }, duration);
 }
@@ -327,7 +443,13 @@ function showToast(msg, duration = 3000) {
 ────────────────────────────────────────── */
 function openReportModal() {
   const m = document.getElementById('reportModal');
-  if (m) m.classList.add('open');
+  if (m) {
+    m.classList.add('open');
+    setTimeout(() => {
+      const locInput = document.getElementById('mLocation');
+      if (locInput) locInput.focus();
+    }, 50);
+  }
 }
 
 function closeReportModal() {
@@ -342,82 +464,152 @@ if (modalOverlay) {
   });
 }
 
-let incCounter = 4100;
+// Global escape key to close modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeReportModal();
+});
+
+/* ──────────────────────────────────────────
+   UNIFIED INCIDENT DISPATCH CREATOR
+────────────────────────────────────────── */
+function createAndDispatchIncident(loc, cat, sev, rawTeam) {
+  incCounter++;
+  const newId = `#INC-${incCounter}`;
+  const team = rawTeam.replace(' (Recommended)', '').replace(' (Available)', '').replace('Auto-Assign', 'Unit Alpha-04');
+  const icon = cat === 'Accident' ? '🚗' : cat === 'Road Closure' ? '🚫' : cat === 'Breakdown' ? '🚘' : '🚦';
+  const nowTime = getCurrentTimeFormatted();
+
+  // 1. Prepend to Home Incidents
+  homeIncidents.unshift({
+    id: newId,
+    cat: cat,
+    icon: icon,
+    loc: loc,
+    sev: sev,
+    team: team,
+    status: 'Dispatched',
+    isNew: true
+  });
+
+  // 2. Prepend to Full Incident Queue
+  allIncidents.unshift({
+    id: `INC-${incCounter}`,
+    ts: nowTime,
+    loc: loc,
+    cat: cat,
+    sev: sev,
+    team: team,
+    status: 'Dispatched',
+    isNew: true
+  });
+
+  // 3. Prepend to Dispatch Assignment Feed
+  dispatchData.unshift({
+    id: `#DSP-${incCounter}`,
+    team: team,
+    loc: loc,
+    status: 'En Route',
+    eta: '03m 15s',
+    etaSeconds: 195,
+    isNew: true
+  });
+
+  // 4. Update Global Metrics
+  globalStats.activeIncidents += 1;
+  if (sev === 'Critical') globalStats.criticalAlerts += 1;
+  globalStats.activeCalls += 1;
+  updateMetricCounters();
+
+  // 5. Re-render affected tables immediately
+  renderHomeTable(homeIncidents);
+  filterIncTable();
+  renderDispTable(dispatchData);
+
+  // 6. Provide instant feedback
+  showToast(`✅ ${newId} logged & dispatched to ${team}!`);
+}
 
 function submitReport() {
   const locInput = document.getElementById('mLocation');
   const loc = locInput ? locInput.value.trim() : '';
   if (!loc) {
-    showToast('⚠️ Please enter a location');
+    showToast('⚠️ Please enter an incident location');
+    if (locInput) locInput.focus();
     return;
   }
-  incCounter++;
   const cat = document.getElementById('mCategory').value;
-  const newInc = {
-    id: `#INC-${incCounter}`,
-    cat: cat,
-    icon: cat === 'Accident' ? '🚗' : cat === 'Road Closure' ? '🚫' : cat === 'Breakdown' ? '🚘' : '🚦',
-    loc: loc,
-    sev: document.getElementById('mSeverity').value,
-    team: document.getElementById('mTeam').value.replace(' (Recommended)', '').replace('Auto-Assign', 'Unit Alpha-04'),
-    status: 'Dispatched',
-  };
-  homeIncidents.unshift(newInc);
-  renderHomeTable(homeIncidents.slice(0, 8));
+  const sev = document.getElementById('mSeverity').value;
+  const team = document.getElementById('mTeam').value;
 
-  const activeCountEl = document.getElementById('stat-active');
-  if (activeCountEl) {
-    activeCountEl.textContent = parseInt(activeCountEl.textContent) + 1;
-  }
+  createAndDispatchIncident(loc, cat, sev, team);
 
   closeReportModal();
-  showToast(`✅ Incident #INC-${incCounter} logged & dispatched!`);
   if (locInput) locInput.value = '';
   const notesInput = document.getElementById('mNotes');
   if (notesInput) notesInput.value = '';
 }
 
-/* ──────────────────────────────────────────
-   QUICK DISPATCH (Home Sidebar)
-────────────────────────────────────────── */
 function dispatchIncident() {
   const locInput = document.getElementById('qLocation');
   const loc = locInput ? locInput.value.trim() : '';
   if (!loc) {
-    showToast('⚠️ Please enter a location');
+    showToast('⚠️ Please enter an incident location');
+    if (locInput) locInput.focus();
     return;
   }
-  incCounter++;
   const cat = document.getElementById('qCategory').value;
-  const newInc = {
-    id: `#INC-${incCounter}`,
-    cat: cat,
-    icon: cat === 'Accident' ? '🚗' : cat === 'Road Closure' ? '🚫' : cat === 'Breakdown' ? '🚘' : '🚦',
-    loc: loc,
-    sev: document.getElementById('qSeverity').value,
-    team: document.getElementById('qTeam').value.replace(' (Available)', ''),
-    status: 'Dispatched',
-  };
-  homeIncidents.unshift(newInc);
-  renderHomeTable(homeIncidents.slice(0, 8));
+  const sev = document.getElementById('qSeverity').value;
+  const team = document.getElementById('qTeam').value;
 
-  const activeCountEl = document.getElementById('stat-active');
-  if (activeCountEl) {
-    activeCountEl.textContent = parseInt(activeCountEl.textContent) + 1;
-  }
-
-  showToast(`✅ Incident #INC-${incCounter} logged & dispatched!`);
+  createAndDispatchIncident(loc, cat, sev, team);
   if (locInput) locInput.value = '';
 }
 
+// Enter key support for quick forms
+const qLocationInput = document.getElementById('qLocation');
+if (qLocationInput) {
+  qLocationInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') dispatchIncident();
+  });
+}
+const mLocationInput = document.getElementById('mLocation');
+if (mLocationInput) {
+  mLocationInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitReport();
+  });
+}
+
 function syncTable() {
-  showToast('🔄 Syncing live data...');
-  setTimeout(() => showToast('✅ Data synced — 18 active incidents'), 1200);
+  showToast('🔄 Synchronizing CAD & field radar telemetry...');
+  setTimeout(() => {
+    renderHomeTable(homeIncidents);
+    filterIncTable();
+    renderDispTable(dispatchData);
+    drawMiniMap('miniMapCanvas');
+    showToast('✅ All telemetry synchronized (0ms latency)');
+  }, 400);
+}
+
+/* ──────────────────────────────────────────
+   UPDATE METRIC COUNTERS FAST
+────────────────────────────────────────── */
+function updateMetricCounters() {
+  const activeHome = document.getElementById('stat-active');
+  if (activeHome) activeHome.textContent = globalStats.activeIncidents;
+
+  const critHome = document.getElementById('stat-critical');
+  if (critHome) critHome.textContent = globalStats.criticalAlerts;
+
+  const incActive = document.querySelector('#page-incidents .stat-value');
+  if (incActive) incActive.textContent = globalStats.activeIncidents;
+
+  const activeCallEl = document.querySelector('.services-stat-box.active-call-box .services-stat-num');
+  if (activeCallEl) activeCallEl.textContent = globalStats.activeCalls.toString().padStart(2, '0');
 }
 
 /* ──────────────────────────────────────────
    REALISTIC LIGHT-THEMED GEOSPATIAL MAP CANVAS
-   (Matched to Atlanta / LA snapshot in screenshots)
+   (Atlanta / Metro Corridor snapshot)
 ────────────────────────────────────────── */
 function drawMiniMap(canvasId) {
   const canvas = document.getElementById(canvasId);
@@ -450,7 +642,7 @@ function drawMiniMap(canvasId) {
   ctx.bezierCurveTo(W * 0.4, H * 0.2, W * 0.6, H * 0.8, W, H * 0.85);
   ctx.stroke();
 
-  // 4. Minor street grid lines (crisp white with faint border)
+  // 4. Minor street grid lines (crisp white)
   ctx.strokeStyle = '#ffffff';
   ctx.lineWidth = 2.5;
   for (let x = 15; x < W; x += 32) {
@@ -466,22 +658,20 @@ function drawMiniMap(canvasId) {
     ctx.stroke();
   }
 
-  // 5. Major Highways / Arterials (solid light blue-gray corridor)
+  // 5. Major Highways (solid light blue-gray corridor)
   ctx.strokeStyle = '#e2e8f0';
   ctx.lineWidth = 6;
-  // Highway 1: North-South
   ctx.beginPath();
   ctx.moveTo(W * 0.52, 0);
   ctx.bezierCurveTo(W * 0.52, H * 0.4, W * 0.48, H * 0.6, W * 0.5, H);
   ctx.stroke();
 
-  // Highway 2: East-West
   ctx.beginPath();
   ctx.moveTo(0, H * 0.48);
   ctx.bezierCurveTo(W * 0.3, H * 0.46, W * 0.7, H * 0.52, W, H * 0.5);
   ctx.stroke();
 
-  // Overlay Highway core (white)
+  // Highway Core (white)
   ctx.strokeStyle = '#ffffff';
   ctx.lineWidth = 4;
   ctx.beginPath();
@@ -494,7 +684,7 @@ function drawMiniMap(canvasId) {
   ctx.bezierCurveTo(W * 0.3, H * 0.46, W * 0.7, H * 0.52, W, H * 0.5);
   ctx.stroke();
 
-  // 6. Metro Highway Center ring
+  // Highway ring
   ctx.strokeStyle = '#cbd5e1';
   ctx.lineWidth = 2.5;
   ctx.setLineDash([4, 4]);
@@ -503,7 +693,7 @@ function drawMiniMap(canvasId) {
   ctx.stroke();
   ctx.setLineDash([]);
 
-  // 7. City Labels
+  // Labels
   ctx.fillStyle = '#1e293b';
   ctx.font = 'bold 12px Inter, sans-serif';
   ctx.textAlign = 'center';
@@ -513,45 +703,35 @@ function drawMiniMap(canvasId) {
   ctx.font = '500 8px Inter, sans-serif';
   ctx.fillText('Downtown', W * 0.5, H * 0.62);
   ctx.fillText('Midtown', W * 0.52, H * 0.36);
-  ctx.fillText('Decatur', W * 0.85, H * 0.45);
 
-  // 8. Incident Marker Pins (matching screenshot styling)
-  function drawPin(x, y, color, pulse) {
-    // Halo
+  // Incident Marker Pins
+  function drawPin(x, y, color) {
     ctx.fillStyle = color;
     ctx.globalAlpha = 0.22;
     ctx.beginPath();
-    ctx.arc(x, y, pulse ? 9 : 7, 0, Math.PI * 2);
+    ctx.arc(x, y, 8, 0, Math.PI * 2);
     ctx.fill();
 
-    // Border
     ctx.globalAlpha = 1.0;
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
     ctx.arc(x, y, 5, 0, Math.PI * 2);
     ctx.fill();
 
-    // Solid Center
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(x, y, 3.5, 0, Math.PI * 2);
     ctx.fill();
   }
 
-  // Critical pins (Red)
-  drawPin(W * 0.48, H * 0.46, '#dc2626', true);
-  drawPin(W * 0.54, H * 0.24, '#dc2626', true);
-  drawPin(W * 0.72, H * 0.52, '#dc2626', true);
-
-  // High pins (Orange)
-  drawPin(W * 0.32, H * 0.48, '#ea580c', false);
-  drawPin(W * 0.5,  H * 0.74, '#ea580c', false);
-  drawPin(W * 0.65, H * 0.38, '#ea580c', false);
-  drawPin(W * 0.22, H * 0.68, '#ea580c', false);
-
-  // Response Units (Blue/Teal)
-  drawPin(W * 0.44, H * 0.38, '#005bf6', false);
-  drawPin(W * 0.58, H * 0.62, '#005bf6', false);
+  drawPin(W * 0.48, H * 0.46, '#dc2626');
+  drawPin(W * 0.54, H * 0.24, '#dc2626');
+  drawPin(W * 0.72, H * 0.52, '#dc2626');
+  drawPin(W * 0.32, H * 0.48, '#ea580c');
+  drawPin(W * 0.5,  H * 0.74, '#ea580c');
+  drawPin(W * 0.65, H * 0.38, '#ea580c');
+  drawPin(W * 0.44, H * 0.38, '#005bf6');
+  drawPin(W * 0.58, H * 0.62, '#005bf6');
 }
 
 function drawSectorMap() {
@@ -559,18 +739,58 @@ function drawSectorMap() {
 }
 
 /* ──────────────────────────────────────────
-   LIVE TICKER
+   FAST REAL-TIME LIVE UPDATE TICKERS
 ────────────────────────────────────────── */
-function tickResponseTime() {
+// 1. Live Clock updating every second
+function updateLiveClock() {
+  const badge = document.querySelector('.live-badge');
+  if (badge) {
+    const timeStr = getCurrentTimeFormatted();
+    badge.innerHTML = `<div class="live-dot"></div> LIVE OPERATIONS • 24/7 &nbsp;·&nbsp; ${timeStr}`;
+  }
+}
+
+// 2. Dynamic response time updating every 6 seconds
+function updateResponseTime() {
   const el = document.getElementById('stat-response');
   if (!el) return;
-  const mins = Math.floor(Math.random() * 3) + 5;
-  const secs = Math.floor(Math.random() * 60);
-  el.textContent = `${mins}m ${secs.toString().padStart(2, '0')}s`;
+  const baseSec = Math.floor(Math.random() * 20) + 30; // 30s - 50s
+  el.textContent = `6m ${baseSec}s`;
+
+  // Dynamically wiggle the mini-bars
+  const bars = document.querySelectorAll('.mini-bar');
+  bars.forEach((b, i) => {
+    const randH = Math.min(100, Math.max(25, 30 + i * 15 + (Math.random() * 20 - 10)));
+    b.style.height = `${randH}%`;
+  });
+}
+
+// 3. Live countdown for en-route units every 3 seconds
+function updateDispatchETAs() {
+  let changed = false;
+  dispatchData.forEach(item => {
+    if (item.status === 'En Route' && item.etaSeconds > 0) {
+      item.etaSeconds = Math.max(0, item.etaSeconds - 4);
+      const m = Math.floor(item.etaSeconds / 60);
+      const s = item.etaSeconds % 60;
+      item.eta = `${m.toString().padStart(2, '0')}m ${s.toString().padStart(2, '0')}s`;
+      if (item.etaSeconds === 0) {
+        item.status = 'On Scene';
+        item.eta = 'Arrived';
+      }
+      changed = true;
+    }
+  });
+  if (changed) {
+    const servicesPage = document.getElementById('page-services');
+    if (servicesPage && servicesPage.classList.contains('active')) {
+      renderDispTable(dispatchData);
+    }
+  }
 }
 
 /* ──────────────────────────────────────────
-   INIT
+   INIT & EVENT REGISTRATION
 ────────────────────────────────────────── */
 window.addEventListener('DOMContentLoaded', () => {
   renderHomeTable(homeIncidents);
@@ -580,7 +800,44 @@ window.addEventListener('DOMContentLoaded', () => {
   renderDispTable(dispatchData);
   drawMiniMap('miniMapCanvas');
 
-  setInterval(tickResponseTime, 15000);
+  // Fast Update Timers
+  updateLiveClock();
+  setInterval(updateLiveClock, 1000);        // Every 1s: clock
+  setInterval(updateDispatchETAs, 3000);     // Every 3s: ETA countdown
+  setInterval(updateResponseTime, 6000);     // Every 6s: telemetry response time
+
+  // Mobile drawer menu toggle
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const navLinks = document.getElementById('navLinks');
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navLinks.classList.toggle('mobile-open');
+    });
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+        navLinks.classList.remove('mobile-open');
+      }
+    });
+  }
+
+  // Navigation link click routing
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const page = link.dataset.page;
+      if (page) navTo(page);
+    });
+  });
+
+  // Brand click navigates home
+  const brand = document.querySelector('.nav-brand');
+  if (brand) {
+    brand.addEventListener('click', e => {
+      e.preventDefault();
+      navTo('home');
+    });
+  }
 });
 
 window.addEventListener('resize', () => {
